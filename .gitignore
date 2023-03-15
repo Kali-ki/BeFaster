@@ -77,6 +77,13 @@ fastlane/readme.md
 # Version control
 vcs.xml
 
+# IntelliJ
+*.iml
+.idea/
+misc.xml
+deploymentTargetDropDown.xml
+render.experimental.xml
+
 # lint
 lint/intermediates/
 lint/generated/
