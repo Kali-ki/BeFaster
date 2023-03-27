@@ -20,6 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".TrainingActivity"/>
+        <activity android:name=".MultiplayerActivity"/>
+        <activity android:name=".SettingsActivity"/>
     </application>
 
 </manifest>
