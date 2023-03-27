@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="question_5">
+        Dans la coutume belge, que signifie \"Dikkenek\" ?
+    </string>
+    <string name="answer_5_1">
+        S\'être réveillé du mauvais pied.
+    </string>
+    <string name="answer_5_2">
+        Perdre la raison.
+    </string>
+    <string name="answer_5_3">
+        Vouloir toujours parler sur tout.
+    </string>
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="training_description_1">
+        Mode d\'entraînement
+    </string>
+    <string name="training_description_2">
+        qui permet de s\'entraîner
+    </string>
+    <string name="training_description_3">
+        sans adversaires.
+    </string>
+    <string name="quiz">
+        Fast Quiz
+    </string>
+</resources>

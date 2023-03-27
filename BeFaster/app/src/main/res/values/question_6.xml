@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="question_6">
+        Quel est le cri de l\'âne ?
+    </string>
+    <string name="answer_6_1">
+        Le piaulement.
+    </string>
+    <string name="answer_6_2">
+        Le mugissement
+    </string>
+    <string name="answer_6_3">
+        Le braiement.
+    </string>
+</resources>

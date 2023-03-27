@@ -1,6 +1,11 @@
-package com.kjnco.befaster
+package com.kjnco.befaster.main_menu
 
 import androidx.appcompat.app.AppCompatActivity
+import com.kjnco.befaster.R
+
+/**
+ * Class that aims to offer the key part of our game
+ */
 
 class MultiplayerActivity: AppCompatActivity() {
 
@@ -9,9 +14,12 @@ class MultiplayerActivity: AppCompatActivity() {
         setContentView(R.layout.activity_multiplayer)
 
         val actionBar = supportActionBar
-        actionBar !!.title = "Mode multijoueur"
-        actionBar.setDisplayHomeAsUpEnabled(true)
-        actionBar.setDisplayShowCustomEnabled(true)
+        if (actionBar != null) {
+            actionBar.setTitle(R.string.multi_bar)
+            actionBar.setDisplayHomeAsUpEnabled(true)
+            actionBar.setDisplayShowCustomEnabled(true)
+        }
+
     }
 
     override fun onSupportNavigateUp(): Boolean {

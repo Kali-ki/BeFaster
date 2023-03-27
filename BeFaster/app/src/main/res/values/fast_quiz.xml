@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="quiz_greetings">
+        Bienvenue dans Fast Quiz,
+    </string>
+    <string name="quiz_rules">
+        la règle est simple
+    </string>
+    <string name="quiz_description">
+        répondez le plus rapidement possible
+    </string>
+
+    <string name="quiz_start">
+        Commencer
+    </string>
+
+    <string name="valid_question">
+        Valider
+    </string>
+</resources>

@@ -1,10 +1,17 @@
-package com.kjnco.befaster
+package com.kjnco.befaster.main
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import com.kjnco.befaster.main_menu.MultiplayerActivity
+import com.kjnco.befaster.R
+import com.kjnco.befaster.main_menu.SettingsActivity
+import com.kjnco.befaster.main_menu.TrainingActivity
 
+/**
+ * Main class that organizes all the other
+ */
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +35,11 @@ class MainActivity : AppCompatActivity() {
         settingsButton.setOnClickListener{
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
+        }
+
+        val actionBar = supportActionBar
+        if (actionBar != null) {
+            actionBar.setTitle(R.string.app_name)
         }
 
     }

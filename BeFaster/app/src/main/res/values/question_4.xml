@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="question_4">
+        Qu\'est-ce que la votaphobie ?
+    </string>
+    <string name="answer_4_1">
+        La peur de prendre une mauvase décision.
+    </string>
+    <string name="answer_4_2">
+        La peur d\'oublier de voter.
+    </string>
+    <string name="answer_4_3">
+        La peur des factures.
+    </string>
+</resources>

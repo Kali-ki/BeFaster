@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="question_3">
+        Dans la coutume belge, que signifie ne pas avoir toutes les frites dans le même cornet ?
+    </string>
+    <string name="answer_3_1">
+        Avaler de travers.
+    </string>
+    <string name="answer_3_2">
+        Avoir très peu de provisions.
+    </string>
+    <string name="answer_3_3">
+        Être un peu fou.
+    </string>
+</resources>
