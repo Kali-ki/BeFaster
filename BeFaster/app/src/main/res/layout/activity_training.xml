@@ -38,6 +38,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="400dp"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginLeft="120dp"
+        android:background="@drawable/rounded_corners"
+        android:textColor="@color/white"/>
+
+    <Button
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="400dp"
+        android:layout_toRightOf="@+id/fast_quiz"
+        android:background="@drawable/rounded_corners"
+        android:textColor="@color/anagolous_2"/>
 
 </RelativeLayout>

@@ -33,19 +33,6 @@ class QuizMenu: AppCompatActivity() {
             val intent = Intent(this, Q1::class.java)
             startActivity(intent)
         }
-
-        // Put in place action bar
-        val actionBar = supportActionBar
-        if (actionBar != null) {
-            actionBar.setTitle(R.string.quiz_bar)
-            actionBar.setDisplayHomeAsUpEnabled(true)
-            actionBar.setDisplayShowCustomEnabled(true)
-        }
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
     }
 
 }

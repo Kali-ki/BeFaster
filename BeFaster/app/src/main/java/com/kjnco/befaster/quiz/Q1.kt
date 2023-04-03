@@ -1,94 +1,182 @@
 package com.kjnco.befaster.quiz
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.kjnco.befaster.R
 import java.util.*
 
 class Q1: AppCompatActivity() {
 
-    // Storing question id as key and answers id as values
-    val questionList = hashMapOf<Int, List<Int>>()
-
-    // Storing question id as key and correct answer id as value
-    val correctAnswerList = hashMapOf<Int, Int>()
-
-    // Declare the variable to store the time
+    // Declare variables to store the time
     var startTime: Long = 0
+    var answerTime: Long = 0
+
+    // Declare if whether the answer is correct or not
+    var isCorrect: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fast_quiz_question)
 
-        // Fill the questionList
-        questionList.put(R.string.question_1, listOf(R.string.answer_1_1, R.string.answer_1_2, R.string.answer_1_3))
-        questionList.put(R.string.question_2, listOf(R.string.answer_2_1, R.string.answer_2_2, R.string.answer_2_3))
-        questionList.put(R.string.question_3, listOf(R.string.answer_3_1, R.string.answer_3_2, R.string.answer_3_3))
-        questionList.put(R.string.question_4, listOf(R.string.answer_4_1, R.string.answer_4_2, R.string.answer_4_3))
-        questionList.put(R.string.question_5, listOf(R.string.answer_5_1, R.string.answer_5_2, R.string.answer_5_3))
-        questionList.put(R.string.question_6, listOf(R.string.answer_6_1, R.string.answer_6_2, R.string.answer_6_3))
-
-        // Fill the correctAnswerList
-        correctAnswerList.put(R.string.question_1, R.string.answer_1_3)
-        correctAnswerList.put(R.string.question_2, R.string.answer_2_3)
-        correctAnswerList.put(R.string.question_3, R.string.answer_3_3)
-        correctAnswerList.put(R.string.question_4, R.string.answer_4_3)
-        correctAnswerList.put(R.string.question_5, R.string.answer_5_3)
-        correctAnswerList.put(R.string.question_6, R.string.answer_6_3)
+        // Create a QuizHandler
+        val quizHandler = QuizHandler()
 
         // Start counting the time
         startTime = Date().time
 
         // Get the TextView, RadioButton and Button
         val question: TextView by lazy { findViewById(R.id.question)}
+        val radioGroup: RadioGroup by lazy { findViewById(R.id.answers)}
         val answer1: RadioButton by lazy { findViewById(R.id.answer_1)}
         val answer2: RadioButton by lazy { findViewById(R.id.answer_2)}
         val answer3: RadioButton by lazy { findViewById(R.id.answer_3)}
         val validationButt: Button by lazy { findViewById(R.id.validation)}
 
-        // Shuffle the questionList
-        val shuffledQuestionList = questionList.toList().shuffled().toMap()
 
         // Set the TextView, RadioButton and Button with the first question
-        question.setText(shuffledQuestionList.keys.first())
-        answer1.setText(shuffledQuestionList.values.first()[0])
-        answer2.setText(shuffledQuestionList.values.first()[1])
-        answer3.setText(shuffledQuestionList.values.first()[2])
+        question.setText(quizHandler.questionList.keys.first())
+        answer1.setText(quizHandler.questionList.values.first()[0])
+        answer2.setText(quizHandler.questionList.values.first()[1])
+        answer3.setText(quizHandler.questionList.values.first()[2])
         validationButt.setText(R.string.valid_question)
+
+        // Getting the radio selected id
+        if (radioGroup.childCount > 0) {
+            validationButt.setOnClickListener {
+                val selectedRadioId = radioGroup.checkedRadioButtonId
+                var goodAnswer = false
+                if (selectedRadioId == -1) {
+                    Toast.makeText(applicationContext, "Il faut choisir une réponse !", Toast.LENGTH_SHORT).show()
+                } else {
+                    checkTheAnswer(quizHandler, selectedRadioId)
+                }
+                if(goodAnswer) {
+                    val rightActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                        if (result.resultCode == Activity.RESULT_OK) {
+                            val answerTime = result.data?.getLongExtra("answerTime", 0) ?: 0
+
+                        }
+                    }
+                    val intent = Intent(this, RightAnswer::class.java)
+                    intent.putExtra("answerTime", answerTime)
+                    rightActivity.launch(intent)
+                }else {
+                    val wrongActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                        if (result.resultCode == Activity.RESULT_OK) {
+                            val answerTime = result.data?.getLongExtra("answerTime", 0) ?: 0
+
+                        }
+                    }
+                    val intent = Intent(this, WrongAnswer::class.java)
+                    intent.putExtra("answerTime", answerTime)
+                    wrongActivity.launch(intent)
+                }
+            }
+        }else {
+            Log.e("MainActivity", "No radio buttons found in radio group")
+        }
 
     }
 
-    fun onRadioButtonClicked(view: View) {
-        if (view is RadioButton) {
-            val checked = view.isChecked
+    private fun checkTheAnswer(qh: QuizHandler, answer: Int) {
 
-            when (view.getId()) {
-                R.id.answer_1 ->
-                    if (checked) {
-                        // Generate Toast with bad remark
-                        Toast.makeText(applicationContext,"Loser! ",Toast.LENGTH_SHORT).show()
-                    }
-                R.id.answer_2 ->
-                    if (checked) {
-                        Toast.makeText(applicationContext,"Loser! ",Toast.LENGTH_SHORT).show()
-                    }
-                R.id.answer_3 ->
-                    if (checked) {
-                        // Stop counting the time
-                        val endTime = Date().time
-                        // Calculate the time
-                        val time = endTime - startTime
-                        // Convert the time in seconds
-                        val timeInSeconds = time / 1000
-                        // Generate Toast with the congrats and perf
-                        Toast.makeText(applicationContext,"Congrats! You did it in $timeInSeconds seconds",Toast.LENGTH_SHORT).show()
-                    }
+        // Getting the question id
+        val questionId = qh.questionList.keys.first()
+        // Getting the correct answer id
+        val goodAnswerId = qh.correctAnswerList[questionId]
+
+        when (answer) {
+            R.id.answer_1 -> {
+                // Getting the current answer id
+                val currentAnswerId = qh.questionList.values.first()[0]
+                if (currentAnswerId == goodAnswerId) {
+                    // Stop counting the time
+                    val endTime = Date().time
+                    // Calculate the time
+                    val time = endTime - startTime
+                    // Convert the time in seconds
+                    val timeInSeconds = time / 1000
+                    // Setting the answer properties
+                    isCorrect = true
+                    answerTime = timeInSeconds
+                }else {
+                    // Stop counting the time
+                    val endTime = Date().time
+                    // Calculate the time
+                    val time = endTime - startTime
+                    // Convert the time in seconds
+                    val timeInSeconds = time / 1000
+                    // Setting the answer properties
+                    isCorrect = false
+                    answerTime = timeInSeconds
+                }
+            }
+            R.id.answer_2 -> {
+                // Getting the current answer id
+                val currentAnswerId = qh.questionList.values.first()[1]
+                if (currentAnswerId == goodAnswerId) {
+                    // Stop counting the time
+                    val endTime = Date().time
+                    // Calculate the time
+                    val time = endTime - startTime
+                    // Convert the time in seconds
+                    val timeInSeconds = time / 1000
+                    // Setting the answer properties
+                    isCorrect = true
+                    answerTime = timeInSeconds
+                } else {
+                    // Stop counting the time
+                    val endTime = Date().time
+                    // Calculate the time
+                    val time = endTime - startTime
+                    // Convert the time in seconds
+                    val timeInSeconds = time / 1000
+                    // Generate the Toast of wrong answer
+                    // Setting the answer properties
+                    isCorrect = false
+                    answerTime = timeInSeconds
+                }
+            }
+            R.id.answer_3 -> {
+                // Getting the current answer id
+                val currentAnswerId = qh.questionList.values.first()[2]
+                if (currentAnswerId == goodAnswerId) {
+                    // Stop counting the time
+                    val endTime = Date().time
+                    // Calculate the time
+                    val time = endTime - startTime
+                    // Convert the time in seconds
+                    val timeInSeconds = time / 1000
+                    // Setting the answer properties
+                    isCorrect = true
+                    answerTime = timeInSeconds
+                }else {
+                    // Stop counting the time
+                    val endTime = Date().time
+                    // Calculate the time
+                    val time = endTime - startTime
+                    // Convert the time in seconds
+                    val timeInSeconds = time / 1000
+                    // Generate the Toast of wrong answer
+                    // Setting the answer properties
+                    isCorrect = false
+                    answerTime = timeInSeconds
+                }
             }
         }
     }
+
+    fun onRadioButtonClicked(view: View) {
+    }
 }
+

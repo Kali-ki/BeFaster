@@ -17,4 +17,8 @@
     <string name="valid_question">
         Valider
     </string>
+
+    <string name="cancel">
+        Annuler
+    </string>
 </resources>
