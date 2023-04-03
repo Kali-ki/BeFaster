@@ -11,35 +11,46 @@
         android:src="@drawable/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
         android:layout_gravity="center_horizontal"
         />
 
     <Button
         android:id="@+id/trainingMenu"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="350dp"
+        android:background="@drawable/rounded_corners"
+        android:textColor="@color/white"
+        android:padding="20dp"
         android:text="Mode d'entraînement"
         />
 
     <Button
         android:id="@+id/multiMenu"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/trainingMenu"
         android:layout_marginTop="50dp"
+        android:background="@drawable/rounded_corners"
+        android:textColor="@color/white"
+        android:padding="20dp"
         android:text="Mode multijoueur"
         />
 
     <Button
         android:id="@+id/settingsMenu"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:layout_below="@id/multiMenu"
+        android:background="@drawable/rounded_corners"
+        android:textColor="@color/white"
+        android:padding = "20dp"
+        android:drawableStart="@drawable/settings"
         android:text="Paramètres" />
 
 </RelativeLayout>
