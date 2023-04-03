@@ -18,10 +18,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Get the buttons
         val trainingButton: Button by lazy { findViewById(R.id.trainingMenu)}
         val multiplayerButton: Button by lazy { findViewById(R.id.multiMenu)}
         val settingsButton: Button by lazy { findViewById(R.id.settingsMenu)}
 
+        // Set the text of the buttons
+        trainingButton.setText(R.string.training_mode)
+        multiplayerButton.setText(R.string.multi_mode)
+        settingsButton.setText(R.string.settings)
+
+        // Set the action of the buttons
         trainingButton.setOnClickListener {
             val intent = Intent(this, TrainingActivity::class.java)
             startActivity(intent)
@@ -35,11 +42,6 @@ class MainActivity : AppCompatActivity() {
         settingsButton.setOnClickListener{
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
-        }
-
-        val actionBar = supportActionBar
-        if (actionBar != null) {
-            actionBar.setTitle(R.string.app_name)
         }
 
     }

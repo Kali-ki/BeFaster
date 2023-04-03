@@ -24,7 +24,6 @@
         android:background="@drawable/rounded_corners"
         android:textColor="@color/white"
         android:padding="20dp"
-        android:text="Mode d'entraînement"
         />
 
     <Button
@@ -37,7 +36,6 @@
         android:background="@drawable/rounded_corners"
         android:textColor="@color/white"
         android:padding="20dp"
-        android:text="Mode multijoueur"
         />
 
     <Button
@@ -50,7 +48,6 @@
         android:background="@drawable/rounded_corners"
         android:textColor="@color/white"
         android:padding = "20dp"
-        android:drawableStart="@drawable/settings"
-        android:text="Paramètres" />
+        android:drawableStart="@drawable/settings" />
 
 </RelativeLayout>

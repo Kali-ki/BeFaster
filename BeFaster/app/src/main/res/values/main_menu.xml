@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="training_mode">
+        Mode d\'entraînement
+    </string>
+    <string name="multi_mode">
+        Mode Multijoueur
+    </string>
+    <string name="settings">
+        Paramètres
+    </string>
+</resources>
