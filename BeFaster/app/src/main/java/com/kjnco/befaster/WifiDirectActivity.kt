@@ -1,43 +1,47 @@
 package com.kjnco.befaster
 
 import android.content.Context
-import android.content.Intent
 import android.content.IntentFilter
-import android.content.pm.PackageManager
-import android.net.wifi.WifiManager
 import android.net.wifi.p2p.WifiP2pDevice
-import android.net.wifi.p2p.WifiP2pDeviceList
 import android.net.wifi.p2p.WifiP2pManager
-import android.net.wifi.p2p.WifiP2pManager.PeerListListener
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.Settings
-import android.util.Log
-import android.widget.Button
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.ListView
+import android.widget.TextView
 import android.widget.Toast
 
-class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener, PeerListListener {
+class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
 
     // Debugging
     var tag : String = "WifiDirectActivity"
 
-    // UI elements
-    private lateinit var wifiButton: Button
-    private lateinit var peersButton: Button
+    // UI
+    private lateinit var listView : ListView
 
-    // List of available peers
-    private var peers = mutableListOf<WifiP2pDevice>()
+    lateinit var listDevice: ArrayList<WifiP2pDevice>
+    lateinit var adapter: DeviceP2pAdapter
 
     private var intentFilter : IntentFilter = IntentFilter()
-    private lateinit var channel : WifiP2pManager.Channel
+    lateinit var channel : WifiP2pManager.Channel
     lateinit var manager : WifiP2pManager
-    private lateinit var receiver : MyReceiver
-
-    private var retryChannel : Boolean = false
+    private lateinit var receiver : WifiReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wifi_direct)
+
+        this.listView = findViewById(R.id.peers_listView)
+        this.listDevice = ArrayList()
+        this.adapter = DeviceP2pAdapter(this, listDevice)
+        listView.adapter = this.adapter
+
+        // Initialize manager and channel
+        manager = getSystemService(Context.WIFI_P2P_SERVICE) as WifiP2pManager
+        channel = manager.initialize(this, mainLooper, null)
 
         // Indicates a change in the Wi-Fi Direct status.
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION)
@@ -48,39 +52,26 @@ class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener, 
         // Indicates this device's details have changed.
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION)
 
-        // Initialize Wi-Fi Direct
-        if(!initP2p()) {
-            finish()
-        }
+        //peerListFragment = supportFragmentManager.findFragmentById()
 
-        // Set behavior for UI elements "WIFI"
-        wifiButton = findViewById(R.id.wifi_button)
-        wifiButton.setOnClickListener {
-            startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS))
-        }
+        manager.discoverPeers(channel, object : WifiP2pManager.ActionListener {
 
-        // Set behavior for UI elements "DISCOVER PEERS"
-        peersButton = findViewById(R.id.peers_button)
-        peersButton.setOnClickListener {
-            manager.discoverPeers(channel, object : WifiP2pManager.ActionListener {
+            override fun onSuccess() {
+                Toast.makeText(applicationContext, "Discovery Initiated", Toast.LENGTH_SHORT).show()
+            }
 
-                override fun onSuccess() {
-                    Log.d(tag, "Discovery Initiated")
-                }
+            override fun onFailure(reasonCode: Int) {
+                Toast.makeText(applicationContext, "Discovery Failed : $reasonCode", Toast.LENGTH_SHORT).show()
+            }
 
-                override fun onFailure(reasonCode: Int) {
-                    Log.d(tag, "Discovery Failed : $reasonCode")
-                }
-
-            })
-        }
+        })
 
     }
 
     // When the activity is resumed, register the broadcast receiver
     override fun onResume() {
         super.onResume()
-        receiver = MyReceiver(manager, channel, this)
+        receiver = WifiReceiver(this)
         registerReceiver(receiver, intentFilter)
     }
 
@@ -90,55 +81,32 @@ class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener, 
         unregisterReceiver(receiver)
     }
 
-    // Initialize Wi-Fi Direct
-    private fun initP2p() : Boolean {
-
-        if(!packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_DIRECT)) {
-            Log.e(tag, "Device does not support Wi-Fi Direct")
-            return false
-        }
-        Log.d(tag, "Wi-Fi Direct is supported by this device.")
-
-        val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        if(!wifiManager.isP2pSupported) {
-            Log.e(tag, "Device does not support Wi-Fi Direct")
-            return false
-        }
-
-        manager = getSystemService(Context.WIFI_P2P_SERVICE) as WifiP2pManager
-        channel = manager.initialize(this, mainLooper, null)
-
-        Log.d(tag, "Wi-Fi Direct initialization successful.")
-        return true
-    }
-
+    // Called when the channel is disconnected
     override fun onChannelDisconnected() {
-        if(!retryChannel){
-            retryChannel = true
-        }else{
-            Toast.makeText(this, "Channel lost. Trying again", Toast.LENGTH_SHORT).show()
-        }
+        TODO("Not yet implemented")
     }
 
-    // Callback for when peers are available
-    override fun onPeersAvailable(peerList: WifiP2pDeviceList?) {
-        Log.d(tag, "onPeersAvailable() called")
+    class DeviceP2pAdapter(context : Context, devices : ArrayList<WifiP2pDevice>)
+        : ArrayAdapter<WifiP2pDevice>(context, 0, devices){
 
-        for (peer in peerList!!.deviceList) {
-            Log.d(tag, "Peer: ${peer.deviceName}")
-        }
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            val device : WifiP2pDevice? = getItem(position)
 
-        val refreshedPeers = peerList.deviceList
-        if (refreshedPeers != peers) {
-            peers.clear()
-            if (refreshedPeers != null) {
-                peers.addAll(refreshedPeers)
+            val view : View = convertView ?: LayoutInflater.from(context).inflate(R.layout.wifi_p2p_device, parent, false)
+            view.findViewById<TextView>(R.id.device_name).text = device?.deviceName
+
+            view.setOnClickListener {
+                Toast.makeText(context, "Clicked on ${device?.deviceName}", Toast.LENGTH_SHORT).show()
             }
+
+            view.setOnLongClickListener {
+                Toast.makeText(context, "Long clicked on ${device?.deviceAddress}", Toast.LENGTH_SHORT).show()
+                true
+            }
+
+            return view
         }
 
-        if (peers.isEmpty()) {
-            Log.d(tag, "No devices found")
-        }
     }
 
 }

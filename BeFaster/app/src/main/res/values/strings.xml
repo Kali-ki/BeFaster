@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">BeFaster</string>
-    <string name="activity_wifi_direct_goWifiSettings">Wifi Settings</string>
-    <string name="activity_wifi_direct_discoverPeers">Discover Peers</string>
+    <string name="activity_main_multiplayer">Multiplayer</string>
+    <string name="activity_wifiDirect_text_peers">Peers available</string>
 </resources>

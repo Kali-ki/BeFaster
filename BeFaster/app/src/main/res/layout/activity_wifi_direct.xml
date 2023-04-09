@@ -6,16 +6,16 @@
     android:orientation="vertical"
     tools:context=".WifiDirectActivity">
 
-    <Button
-        android:id="@+id/wifi_button"
-        android:layout_width="wrap_content"
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/activity_wifi_direct_goWifiSettings" />
+        android:gravity="center"
+        android:textSize="25sp"
+        android:text="@string/activity_wifiDirect_text_peers" />
 
-    <Button
-        android:id="@+id/peers_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/activity_wifi_direct_discoverPeers" />
+    <ListView
+        android:id="@+id/peers_listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>
