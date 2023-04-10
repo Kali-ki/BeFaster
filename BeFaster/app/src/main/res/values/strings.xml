@@ -1,6 +1,13 @@
 <resources>
+
     <string name="app_name">BeFaster</string>
     <string name="activity_main_multiplayer">Multiplayer</string>
     <string name="activity_wifiDirect_text_peers">Peers available :</string>
     <string name="activity_wifiDirect_button_discover">Discover Peers</string>
+    <string name="activity_wifiDirect_button_disconnect">Disconnect</string>
+
+    <string name="status">Status : %1$s</string>
+    <string name="host">Host</string>
+    <string name="client">Client</string>
+
 </resources>
