@@ -19,6 +19,9 @@ class WrongAnswer: AppCompatActivity() {
         // Setting the Image View
         imageView.setImageResource(R.drawable.wrong_answer)
 
+        // Retrieve the time from the previous activity
+        answerTime = intent.getLongExtra("answerTime", 0L)
+
         // Make a Toast of congratulations with time imported from Q1 class
         Toast.makeText(this,"Dommage ! Tu as échoué et répondu en " + answerTime + " secondes.", Toast.LENGTH_LONG).show()
     }

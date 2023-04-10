@@ -24,6 +24,5 @@ class RightAnswer: AppCompatActivity(){
 
         // Make a Toast of congratulations with time imported from Q1 class
         Toast.makeText(this, "Félicitations ! Réponse en " + answerTime +" secondes.", Toast.LENGTH_LONG).show()
-        finish()
     }
 }

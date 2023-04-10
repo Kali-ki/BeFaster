@@ -10,6 +10,7 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.kjnco.befaster.R
@@ -23,6 +24,9 @@ class Q1: AppCompatActivity() {
 
     // Declare if whether the answer is correct or not
     var isCorrect: Boolean = false
+
+    // Declare launcher
+    private lateinit var answerActivityLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,36 +54,22 @@ class Q1: AppCompatActivity() {
         answer3.setText(quizHandler.questionList.values.first()[2])
         validationButt.setText(R.string.valid_question)
 
+        // Define the contract to pass the time to the next activity
+        answerActivityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                answerTime = result.data?.getLongExtra("answerTime", 0) ?: 0
+            }
+        }
+
         // Getting the radio selected id
         if (radioGroup.childCount > 0) {
             validationButt.setOnClickListener {
                 val selectedRadioId = radioGroup.checkedRadioButtonId
-                var goodAnswer = false
                 if (selectedRadioId == -1) {
                     Toast.makeText(applicationContext, "Il faut choisir une réponse !", Toast.LENGTH_SHORT).show()
                 } else {
                     checkTheAnswer(quizHandler, selectedRadioId)
-                }
-                if(goodAnswer) {
-                    val rightActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                        if (result.resultCode == Activity.RESULT_OK) {
-                            val answerTime = result.data?.getLongExtra("answerTime", 0) ?: 0
-
-                        }
-                    }
-                    val intent = Intent(this, RightAnswer::class.java)
-                    intent.putExtra("answerTime", answerTime)
-                    rightActivity.launch(intent)
-                }else {
-                    val wrongActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                        if (result.resultCode == Activity.RESULT_OK) {
-                            val answerTime = result.data?.getLongExtra("answerTime", 0) ?: 0
-
-                        }
-                    }
-                    val intent = Intent(this, WrongAnswer::class.java)
-                    intent.putExtra("answerTime", answerTime)
-                    wrongActivity.launch(intent)
+                    startAnswerActivity()
                 }
             }
         }else {
@@ -173,6 +163,18 @@ class Q1: AppCompatActivity() {
                     answerTime = timeInSeconds
                 }
             }
+        }
+    }
+
+    fun startAnswerActivity() {
+        if (isCorrect) {
+            val intent = Intent(this, RightAnswer::class.java)
+            intent.putExtra("answerTime", answerTime)
+            answerActivityLauncher.launch(intent)
+        } else {
+            val intent = Intent(this, WrongAnswer::class.java)
+            intent.putExtra("answerTime", answerTime)
+            answerActivityLauncher.launch(intent)
         }
     }
 
