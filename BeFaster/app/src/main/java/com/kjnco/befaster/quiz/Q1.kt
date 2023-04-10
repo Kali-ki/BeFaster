@@ -1,8 +1,11 @@
 package com.kjnco.befaster.quiz
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -14,9 +17,26 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.kjnco.befaster.R
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.*
 
 class Q1: AppCompatActivity() {
+
+    // Declare a Quiz handler
+    private var quizHandler = QuizHandler()
+
+    // Declare the question and the answers text views
+    private lateinit var question: TextView
+    private lateinit var answer1: RadioButton
+    private lateinit var answer2: RadioButton
+    private lateinit var answer3: RadioButton
+
+    // Declare the radio group
+    private lateinit var radioGroup: RadioGroup
+
+    // Declare the validation button
+    private lateinit var validationButt: Button
 
     // Declare variables to store the time
     var startTime: Long = 0
@@ -35,23 +55,16 @@ class Q1: AppCompatActivity() {
         // Create a QuizHandler
         val quizHandler = QuizHandler()
 
-        // Start counting the time
-        startTime = Date().time
-
         // Get the TextView, RadioButton and Button
-        val question: TextView by lazy { findViewById(R.id.question)}
-        val radioGroup: RadioGroup by lazy { findViewById(R.id.answers)}
-        val answer1: RadioButton by lazy { findViewById(R.id.answer_1)}
-        val answer2: RadioButton by lazy { findViewById(R.id.answer_2)}
-        val answer3: RadioButton by lazy { findViewById(R.id.answer_3)}
-        val validationButt: Button by lazy { findViewById(R.id.validation)}
+        question = findViewById(R.id.question)
+        radioGroup = findViewById(R.id.answers)
+        answer1 = findViewById(R.id.answer_1)
+        answer2 = findViewById(R.id.answer_2)
+        answer3 = findViewById(R.id.answer_3)
+        validationButt = findViewById(R.id.validation)
 
 
-        // Set the TextView, RadioButton and Button with the first question
-        question.setText(quizHandler.questionList.keys.first())
-        answer1.setText(quizHandler.questionList.values.first()[0])
-        answer2.setText(quizHandler.questionList.values.first()[1])
-        answer3.setText(quizHandler.questionList.values.first()[2])
+        // Set the Button text
         validationButt.setText(R.string.valid_question)
 
         // Define the contract to pass the time to the next activity
@@ -61,34 +74,34 @@ class Q1: AppCompatActivity() {
             }
         }
 
-        // Getting the radio selected id
-        if (radioGroup.childCount > 0) {
-            validationButt.setOnClickListener {
-                val selectedRadioId = radioGroup.checkedRadioButtonId
-                if (selectedRadioId == -1) {
-                    Toast.makeText(applicationContext, "Il faut choisir une réponse !", Toast.LENGTH_SHORT).show()
-                } else {
-                    checkTheAnswer(quizHandler, selectedRadioId)
-                    startAnswerActivity()
-                }
-            }
-        }else {
-            Log.e("MainActivity", "No radio buttons found in radio group")
-        }
-
+        // Iterate over the questions
+        displayNextQuestion(0)
     }
 
-    private fun checkTheAnswer(qh: QuizHandler, answer: Int) {
+    /**
+     * Function to set the question and the answers
+     */
+    private fun pickAQuestion(i: Int) {
+        question.setText(quizHandler.questionList.keys.elementAt(i))
+        answer1.setText(quizHandler.questionList.values.elementAt(i)[0])
+        answer2.setText(quizHandler.questionList.values.elementAt(i)[1])
+        answer3.setText(quizHandler.questionList.values.elementAt(i)[2])
+    }
+
+    /**
+     * Function to check the answer
+     */
+    private fun checkTheAnswer(index: Int, answer: Int) {
 
         // Getting the question id
-        val questionId = qh.questionList.keys.first()
+        val questionId = quizHandler.questionList.keys.elementAt(index)
         // Getting the correct answer id
-        val goodAnswerId = qh.correctAnswerList[questionId]
+        val goodAnswerId = quizHandler.correctAnswerList[questionId]
 
         when (answer) {
             R.id.answer_1 -> {
                 // Getting the current answer id
-                val currentAnswerId = qh.questionList.values.first()[0]
+                val currentAnswerId = quizHandler.questionList.values.elementAt(index)[0]
                 if (currentAnswerId == goodAnswerId) {
                     // Stop counting the time
                     val endTime = Date().time
@@ -113,7 +126,7 @@ class Q1: AppCompatActivity() {
             }
             R.id.answer_2 -> {
                 // Getting the current answer id
-                val currentAnswerId = qh.questionList.values.first()[1]
+                val currentAnswerId = quizHandler.questionList.values.elementAt(index)[1]
                 if (currentAnswerId == goodAnswerId) {
                     // Stop counting the time
                     val endTime = Date().time
@@ -139,7 +152,7 @@ class Q1: AppCompatActivity() {
             }
             R.id.answer_3 -> {
                 // Getting the current answer id
-                val currentAnswerId = qh.questionList.values.first()[2]
+                val currentAnswerId = quizHandler.questionList.values.elementAt(index)[2]
                 if (currentAnswerId == goodAnswerId) {
                     // Stop counting the time
                     val endTime = Date().time
@@ -166,7 +179,33 @@ class Q1: AppCompatActivity() {
         }
     }
 
-    fun startAnswerActivity() {
+    private fun displayNextQuestion(index: Int) {
+        if (index > quizHandler.questionList.size) {
+            return
+        }
+        pickAQuestion(index)
+        startTime = Date().time
+
+        validationButt.setOnClickListener {
+            val selectedRadioId = radioGroup.checkedRadioButtonId
+            if (selectedRadioId == -1) {
+                Toast.makeText(applicationContext, "Il faut choisir une réponse !", Toast.LENGTH_SHORT).show()
+            }else {
+                checkTheAnswer(index, selectedRadioId)
+
+                GlobalScope.launch {
+                    startAnswerActivity()
+                }
+                displayNextQuestion(index + 1)
+            }
+        }
+    }
+
+    /**
+     * Function to start the answer activity
+     */
+    private fun startAnswerActivity() {
+
         if (isCorrect) {
             val intent = Intent(this, RightAnswer::class.java)
             intent.putExtra("answerTime", answerTime)
@@ -178,7 +217,16 @@ class Q1: AppCompatActivity() {
         }
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        radioGroup.clearCheck()
+    }
+
+    /**
+     * Empty function to avoid the error
+     */
     fun onRadioButtonClicked(view: View) {
     }
+
 }
 
