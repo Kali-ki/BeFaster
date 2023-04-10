@@ -38,7 +38,9 @@ class WifiReceiver(
 
             // Is triggered when the state of the connection changes
             WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION -> {
-                Log.d(tag, "WIFI_P2P_CONNECTION_CHANGED_ACTION")
+
+                // Connection state changed! We should probably do something about that
+
             }
 
             // Is triggered when the device details change

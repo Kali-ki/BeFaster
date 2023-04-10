@@ -4,7 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center"
     tools:context=".WifiDirectActivity">
+
+    <Button
+        android:id="@+id/button_discover"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/activity_wifiDirect_button_discover" />
 
     <TextView
         android:layout_width="match_parent"
@@ -12,6 +19,12 @@
         android:gravity="center"
         android:textSize="25sp"
         android:text="@string/activity_wifiDirect_text_peers" />
+
+    <ProgressBar
+        android:id="@+id/progressBar_discovery"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <ListView
         android:id="@+id/peers_listView"
