@@ -1,16 +1,18 @@
-package com.kjnco.befaster
+package com.kjnco.befaster.wifiP2p
 
 import android.net.wifi.p2p.WifiP2pDevice
 import android.net.wifi.p2p.WifiP2pDeviceList
 import android.net.wifi.p2p.WifiP2pManager
 import android.widget.Toast
+import com.kjnco.befaster.wifiP2p.WifiDirectActivity
 
 /**
  * A PeerListListener that responds to peer list changes.
  * Extends WifiP2pManager.PeerListListener
  */
 class WifiPeerListener(
-    private var wifiActivity : WifiDirectActivity)
+    private var wifiActivity : WifiDirectActivity
+)
     : WifiP2pManager.PeerListListener {
 
     private var peers : ArrayList<WifiP2pDevice> = wifiActivity.listDevice

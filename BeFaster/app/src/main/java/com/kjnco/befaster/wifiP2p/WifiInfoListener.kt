@@ -1,8 +1,8 @@
-package com.kjnco.befaster
+package com.kjnco.befaster.wifiP2p
 
 import android.net.wifi.p2p.WifiP2pInfo
 import android.net.wifi.p2p.WifiP2pManager
-import java.net.InetAddress
+import com.kjnco.befaster.R
 
 /**
  * Custom Implementation of WifiP2pManager.ConnectionInfoListener
@@ -15,10 +15,16 @@ class WifiInfoListener(private var wifiActivity : WifiDirectActivity) : WifiP2pM
 
         if(wifiP2pInfo?.groupFormed == true && wifiP2pInfo.isGroupOwner){
             wifiActivity.connectionStatus = "HOST"
-            wifiActivity.textViewStatus.text = wifiActivity.getString(R.string.status, wifiActivity.getString(R.string.host))
+            wifiActivity.textViewStatus.text = wifiActivity.getString(
+                R.string.status, wifiActivity.getString(
+                    R.string.host
+                ))
         }else if(wifiP2pInfo?.groupFormed == true){
             wifiActivity.connectionStatus = "CLIENT"
-            wifiActivity.textViewStatus.text = wifiActivity.getString(R.string.status, wifiActivity.getString(R.string.client))
+            wifiActivity.textViewStatus.text = wifiActivity.getString(
+                R.string.status, wifiActivity.getString(
+                    R.string.client
+                ))
         }
     }
 

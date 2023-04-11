@@ -1,4 +1,4 @@
-package com.kjnco.befaster
+package com.kjnco.befaster.wifiP2p
 
 import android.content.Context
 import android.content.IntentFilter
@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.kjnco.befaster.R
 
 class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
 

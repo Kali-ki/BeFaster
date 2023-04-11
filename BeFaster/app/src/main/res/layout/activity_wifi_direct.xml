@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".WifiDirectActivity">
+    tools:context=".wifiP2p.WifiDirectActivity">
 
     <LinearLayout
         android:layout_width="wrap_content"

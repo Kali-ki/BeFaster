@@ -38,7 +38,7 @@ class Q1 {
     private lateinit var answerActivityLauncher: ActivityResultLauncher<Intent>
 
     fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        /*super.onCreate(savedInstanceState)
         setContentView(R.layout.fast_quiz_question)
 
         // Create a QuizHandler
@@ -61,7 +61,7 @@ class Q1 {
             if (result.resultCode == Activity.RESULT_OK) {
                 answerTime = result.data?.getLongExtra("answerTime", 0) ?: 0
             }
-        }
+        }*/
 
         // Passing the question to the QuestionFragment
 
@@ -70,14 +70,16 @@ class Q1 {
     /**
      * Function to set the question and the answers
      */
-    private fun assignTheQuestionToTheFragment(i: Int): Bundle {
+    private fun assignTheQuestionToTheFragment(i: Int): Bundle? {
+        /*
         val bundle = Bundle().apply{
             putString("question", resources.getString(quizHandler.questionList.keys.elementAt(i)))
             putString("answer1", resources.getString(quizHandler.questionList.values.elementAt(i)[0]))
             putString("answer2", resources.getString(quizHandler.questionList.values.elementAt(i)[1]))
             putString("answer3", resources.getString(quizHandler.questionList.values.elementAt(i)[2]))
         }
-        return bundle
+        return bundle*/
+        return null
     }
 
     /**
@@ -186,6 +188,7 @@ class Q1 {
      * It selects the right fragment depending on the answer
      */
     private fun startAnswerFragment(view: View) {
+        /*
         val question_container = findViewById<FrameLayout>(R.id.container)
         question_container.visibility = View.GONE
 
@@ -216,7 +219,7 @@ class Q1 {
                     .commit()
                 showQuestionContainer(true)
             }, 2000)
-        }
+        }*/
     }
 
     /**
