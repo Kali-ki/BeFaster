@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.kjnco.befaster.R
 
-class QuizHandler: AppCompatActivity(){
+class Quiz: AppCompatActivity(){
 
     // Storing question id as key and answers id as values
     var questionList = mutableMapOf<Int, List<Int>>()
@@ -66,6 +66,17 @@ class QuizHandler: AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fast_quiz_question)
+
+        val questionFragment = QuestionFragment()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.question_container, questionFragment)
+            .commit()
+
+        val congratsFragment = CongratsFragment()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.congrats_container, congratsFragment)
+            .commit()
+
 
         // Get the TextView, RadioButton and Button
         question = findViewById(R.id.question)

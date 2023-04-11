@@ -7,14 +7,13 @@ import android.view.View
 import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import com.kjnco.befaster.R
 import java.util.*
 
 class Q1 {
 
     // Declare a Quiz handler
-    private var quizHandler = QuizHandler()
+    private var quizHandler = Quiz()
 
     // Declare the question and the answers text views
     private lateinit var question: TextView
@@ -43,7 +42,7 @@ class Q1 {
         setContentView(R.layout.fast_quiz_question)
 
         // Create a QuizHandler
-        val quizHandler = QuizHandler()
+        val quizHandler = Quiz()
 
         // Get the TextView, RadioButton and Button
         question = findViewById(R.id.question)
