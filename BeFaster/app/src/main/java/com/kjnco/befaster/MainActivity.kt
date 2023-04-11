@@ -5,13 +5,16 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.net.wifi.WifiManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.kjnco.befaster.main_menu.SettingsActivity
+import com.kjnco.befaster.main_menu.TrainingActivity
+import com.kjnco.befaster.wifiP2p.WifiDirectActivity
 
 /**
- * Main Activity of the app
+ * Main class that organizes all the other
  */
 class MainActivity : AppCompatActivity() {
 
@@ -40,6 +43,26 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, WifiDirectActivity::class.java))
         }
 
+        // Get the buttons
+        val trainingButton: Button by lazy { findViewById(R.id.trainingMenu)}
+        val settingsButton: Button by lazy { findViewById(R.id.settingsMenu)}
+
+        // Set the text of the buttons
+        trainingButton.setText(R.string.training_mode)
+        multiplayerButton.setText(R.string.multi_mode)
+        settingsButton.setText(R.string.settings)
+
+        // Set the action of the buttons
+        trainingButton.setOnClickListener {
+            val intent = Intent(this, TrainingActivity::class.java)
+            startActivity(intent)
+        }
+
+        settingsButton.setOnClickListener{
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     /**
@@ -64,6 +87,5 @@ class MainActivity : AppCompatActivity() {
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
     }
-
 
 }

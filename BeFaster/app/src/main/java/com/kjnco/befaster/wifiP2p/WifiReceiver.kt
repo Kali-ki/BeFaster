@@ -1,4 +1,4 @@
-package com.kjnco.befaster
+package com.kjnco.befaster.wifiP2p
 
 import android.content.BroadcastReceiver
 import android.content.Context
