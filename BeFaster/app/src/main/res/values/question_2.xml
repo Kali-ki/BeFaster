@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="question_2">
+        Qu\'est-ce que l\'émétoaérosagophilie ?
+    </string>
+    <string name="answer_2_1">
+        La collection de sacs d\'asiprateurs.
+    </string>
+    <string name="answer_2_2">
+        La collection de poussières de feux d\'artifice.
+    </string>
+    <string name="answer_2_3">
+        La collection de sacs à vomi.
+    </string>
+</resources>

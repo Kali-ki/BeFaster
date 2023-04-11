@@ -10,4 +10,41 @@
     <string name="host">Host</string>
     <string name="client">Client</string>
 
+    <style name="EM">
+        <item name="android:fontFamily">"sans-serif-medium"</item>
+        <item name="fontFamily">"sans-serif-medium"</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+    <style name="RegularBig">
+        <item name="android:fontFamily">"sans-serif-medium"</item>
+        <item name="fontFamily">"sans-serif-medium"</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+    <style name="Regular">
+        <item name="android:fontFamily">"sans-serif-medium"</item>
+        <item name="fontFamily">"sans-serif-medium"</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+    <style name="Question">
+        <item name="android:fontFamily">"sans-serif-medium"</item>
+        <item name="fontFamily">"sans-serif-medium"</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+    <style name="Answer">
+        <item name="android:fontFamily">"sans-serif-medium"</item>
+        <item name="fontFamily">"sans-serif-light"</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+    <string name="app_name">Be Faster</string>
+    <string name="question_computation">Le score est en cours de calcul...</string>
 </resources>

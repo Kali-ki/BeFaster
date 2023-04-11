@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="question_1">
+       Qu’est ce que l\'ergophobie ?
+    </string>
+    <string name="answer_1_1">
+        La peur de ne pas être en postion ergonomique.
+    </string>
+    <string name="answer_1_2">
+        La peur de ne pas faire des appli ergonomiques.
+    </string>
+    <string name="answer_1_3">
+        La peur du travail.
+    </string>
+</resources>

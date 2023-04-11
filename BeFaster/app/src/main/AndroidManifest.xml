@@ -28,10 +28,16 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".main_menu.TrainingActivity"/>
+        <activity android:name=".main_menu.MultiplayerActivity"/>
+        <activity android:name=".main_menu.SettingsActivity"/>
+        <activity android:name=".quiz.QuizMenu"/>
+        <activity android:name=".quiz.Q1"/>
+        <activity android:name=".quiz.RightAnswer"/>
+        <activity android:name=".quiz.WrongAnswer"/>
     </application>
 
 </manifest>
