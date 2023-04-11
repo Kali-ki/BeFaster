@@ -1,8 +1,14 @@
 package com.kjnco.befaster.quiz
 
+import android.os.Bundle
+import android.widget.Button
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.kjnco.befaster.R
 
-class QuizHandler {
+class QuizHandler: AppCompatActivity(){
 
     // Storing question id as key and answers id as values
     var questionList = mutableMapOf<Int, List<Int>>()
@@ -12,6 +18,19 @@ class QuizHandler {
 
     // Declare the number of question to iterate on
     val numberOfQuestions: Int = 6
+
+    // Declare the question and the answers text views
+    private lateinit var question: TextView
+    private lateinit var answer1: RadioButton
+    private lateinit var answer2: RadioButton
+    private lateinit var answer3: RadioButton
+
+    // Declare the radio group
+    private lateinit var radioGroup: RadioGroup
+
+    // Declare the validation button
+    private lateinit var validationButt: Button
+
 
     init {
         // Fill the questionList
@@ -44,6 +63,23 @@ class QuizHandler {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.fast_quiz_question)
+
+        // Get the TextView, RadioButton and Button
+        question = findViewById(R.id.question)
+        radioGroup = findViewById(R.id.answers)
+        answer1 = findViewById(R.id.answer_1)
+        answer2 = findViewById(R.id.answer_2)
+        answer3 = findViewById(R.id.answer_3)
+        validationButt = findViewById(R.id.validation)
+
+
+        // Set the Button text
+        validationButt.setText(R.string.valid_question)
+
+    }
 
 
 }

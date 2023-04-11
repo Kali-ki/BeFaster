@@ -25,6 +25,10 @@
         <activity android:name=".quiz.Q1"/>
         <activity android:name=".quiz.RightAnswer"/>
         <activity android:name=".quiz.WrongAnswer"/>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

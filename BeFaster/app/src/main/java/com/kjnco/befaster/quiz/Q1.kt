@@ -1,27 +1,17 @@
 package com.kjnco.befaster.quiz
 
 import android.app.Activity
-import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.kjnco.befaster.R
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.util.*
 
-class Q1: AppCompatActivity() {
+class Q1 {
 
     // Declare a Quiz handler
     private var quizHandler = QuizHandler()
@@ -39,7 +29,7 @@ class Q1: AppCompatActivity() {
     private lateinit var validationButt: Button
 
     // Declare variables to store the time
-    var startTime: Long = 0
+    private var startTime: Long = 0
     var answerTime: Long = 0
 
     // Declare if whether the answer is correct or not
@@ -48,7 +38,7 @@ class Q1: AppCompatActivity() {
     // Declare launcher
     private lateinit var answerActivityLauncher: ActivityResultLauncher<Intent>
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fast_quiz_question)
 
@@ -74,18 +64,21 @@ class Q1: AppCompatActivity() {
             }
         }
 
-        // Iterate over the questions
-        displayNextQuestion(0)
+        // Passing the question to the QuestionFragment
+
     }
 
     /**
      * Function to set the question and the answers
      */
-    private fun pickAQuestion(i: Int) {
-        question.setText(quizHandler.questionList.keys.elementAt(i))
-        answer1.setText(quizHandler.questionList.values.elementAt(i)[0])
-        answer2.setText(quizHandler.questionList.values.elementAt(i)[1])
-        answer3.setText(quizHandler.questionList.values.elementAt(i)[2])
+    private fun assignTheQuestionToTheFragment(i: Int): Bundle {
+        val bundle = Bundle().apply{
+            putString("question", resources.getString(quizHandler.questionList.keys.elementAt(i)))
+            putString("answer1", resources.getString(quizHandler.questionList.values.elementAt(i)[0]))
+            putString("answer2", resources.getString(quizHandler.questionList.values.elementAt(i)[1]))
+            putString("answer3", resources.getString(quizHandler.questionList.values.elementAt(i)[2]))
+        }
+        return bundle
     }
 
     /**
@@ -179,47 +172,52 @@ class Q1: AppCompatActivity() {
         }
     }
 
-    private fun displayNextQuestion(index: Int) {
+    private fun throwTheNextQuestion(view: View, index: Int) {
         if (index > quizHandler.questionList.size) {
             return
         }
-        pickAQuestion(index)
-        startTime = Date().time
+        val bundle = assignTheQuestionToTheFragment(index)
+        val questionFragment = QuestionFragment()
+        questionFragment.arguments = bundle
 
-        validationButt.setOnClickListener {
-            val selectedRadioId = radioGroup.checkedRadioButtonId
-            if (selectedRadioId == -1) {
-                Toast.makeText(applicationContext, "Il faut choisir une réponse !", Toast.LENGTH_SHORT).show()
-            }else {
-                checkTheAnswer(index, selectedRadioId)
-
-                GlobalScope.launch {
-                    startAnswerActivity()
-                }
-                displayNextQuestion(index + 1)
-            }
-        }
     }
 
     /**
-     * Function to start the answer activity
+     * Function to start the answer fragment
+     * It selects the right fragment depending on the answer
      */
-    private fun startAnswerActivity() {
+    private fun startAnswerFragment(view: View) {
+        val question_container = findViewById<FrameLayout>(R.id.container)
+        question_container.visibility = View.GONE
 
         if (isCorrect) {
-            val intent = Intent(this, RightAnswer::class.java)
-            intent.putExtra("answerTime", answerTime)
-            answerActivityLauncher.launch(intent)
-        } else {
-            val intent = Intent(this, WrongAnswer::class.java)
-            intent.putExtra("answerTime", answerTime)
-            answerActivityLauncher.launch(intent)
-        }
-    }
+            val rightAnswer = RightAnswer.newInstance(answerTime)
 
-    override fun onRestart() {
-        super.onRestart()
-        radioGroup.clearCheck()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.container, rightAnswer)
+                .commit()
+
+            view?.postDelayed({
+                supportFragmentManager.beginTransaction()
+                    .replace()
+                    .commit()
+            }, 2000)
+        } else {
+            val wrongAnswer = WrongAnswer.newInstance(answerTime)
+
+            supportFragmentManager.beginTransaction()
+                .add(R.id.container, wrongAnswer)
+                .commit()
+
+            showQuestionContainer(false)
+
+            view?.postDelayed({
+                supportFragmentManager.beginTransaction()
+                    .remove(wrongAnswer)
+                    .commit()
+                showQuestionContainer(true)
+            }, 2000)
+        }
     }
 
     /**

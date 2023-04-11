@@ -2,41 +2,58 @@ package com.kjnco.befaster.quiz
 
 import android.app.Dialog
 import android.app.ProgressDialog
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.kjnco.befaster.R
 import java.sql.RowId
 
-class RightAnswer: AppCompatActivity(){
+class RightAnswer: Fragment(){
 
-    var answerTime: Long = 0L
+    companion object {
+        private const val ARG_ANSWER_TIME = "answerTime"
 
-    override fun onCreate(savedInstanceState: android.os.Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.inter_question_page)
+        fun newInstance(answerTime: Long): RightAnswer {
+            val fragment = RightAnswer()
+            val args = Bundle()
+            args.putLong(ARG_ANSWER_TIME, answerTime)
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        // Inflate the layout for this fragment
+        val view = inflater.inflate(R.layout.inter_question_page, container, false)
 
         //Getting the Image View
-        val imageView: ImageView by lazy { findViewById(R.id.answer_image) }
+        val imageView: ImageView = view.findViewById(R.id.answer_image) as ImageView
 
         // Setting the image
         imageView.setImageResource(R.drawable.right_answer)
 
         // Retrieve the time from the previous activity
-        answerTime = intent.getLongExtra("answerTime", 0L)
+        val answerTime = arguments?.getLong("answerTime", 0L)?:0
 
         // Make a Toast of congratulations with time imported from Q1 class
-        Toast.makeText(this, "Félicitations ! Réponse en " + answerTime +" secondes.", Toast.LENGTH_LONG).show()
+        Toast.makeText(context, "Félicitations ! Réponse en " + answerTime +" secondes.", Toast.LENGTH_LONG).show()
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            finish()
-        }, 3000)
-
+        return view
     }
+
 }

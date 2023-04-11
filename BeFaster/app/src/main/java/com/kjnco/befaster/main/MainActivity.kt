@@ -1,11 +1,11 @@
 package com.kjnco.befaster.main
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import com.kjnco.befaster.main_menu.MultiplayerActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.kjnco.befaster.R
+import com.kjnco.befaster.main_menu.MultiplayerActivity
 import com.kjnco.befaster.main_menu.SettingsActivity
 import com.kjnco.befaster.main_menu.TrainingActivity
 
