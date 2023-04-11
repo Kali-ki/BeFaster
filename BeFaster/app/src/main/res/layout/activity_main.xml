@@ -6,13 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/multiplayer_button"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Hello JEREM!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_weight="1"
+        android:text="@string/activity_main_multiplayer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
