@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity() {
 
         // Get the buttons
         val trainingButton: Button by lazy { findViewById(R.id.trainingMenu)}
-        val multiplayerButton: Button by lazy { findViewById(R.id.multiMenu)}
         val settingsButton: Button by lazy { findViewById(R.id.settingsMenu)}
 
         // Set the text of the buttons
