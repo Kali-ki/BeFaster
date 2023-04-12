@@ -11,26 +11,15 @@ import com.kjnco.befaster.R
 class Quiz: AppCompatActivity(){
 
     // Storing question id as key and answers id as values
-    var questionList = mutableMapOf<Int, List<Int>>()
+    public var questionList = mutableMapOf<Int, List<Int>>()
 
     // Storing question id as key and correct answer id as value
-    val correctAnswerList = hashMapOf<Int, Int>()
+    public val correctAnswerList = hashMapOf<Int, Int>()
 
     // Declare the number of question to iterate on
     val numberOfQuestions: Int = 6
 
-    // Declare the question and the answers text views
-    private lateinit var question: TextView
-    private lateinit var answer1: RadioButton
-    private lateinit var answer2: RadioButton
-    private lateinit var answer3: RadioButton
-
-    // Declare the radio group
-    private lateinit var radioGroup: RadioGroup
-
-    // Declare the validation button
-    private lateinit var validationButt: Button
-
+    // Declare the ViewPager2 and the fragment
 
     init {
         // Fill the questionList
@@ -66,29 +55,26 @@ class Quiz: AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fast_quiz_question)
-
-        val questionFragment = QuestionFragment()
+        // Setting up a Bundle
+        val bundle = Bundle()
+        bundle.putInt("question", questionList.keys.elementAt(0))
+        bundle.putInt("correctAnswer", correctAnswerList[questionList.keys.elementAt(0)]?:0)
+        bundle.putInt("answer1", questionList[questionList.keys.elementAt(0)]?.get(0)?:0)
+        bundle.putInt("answer2", questionList[questionList.keys.elementAt(0)]?.get(1)?:0)
+        bundle.putInt("answer3", questionList[questionList.keys.elementAt(0)]?.get(2)?:0)
+        val question_fragment = QuestionFragment()
+        // Passing the question and the answers to the fragment
+        question_fragment.arguments = bundle
         supportFragmentManager.beginTransaction()
-            .replace(R.id.question_container, questionFragment)
+            .replace(R.id.question_container, question_fragment)
             .commit()
 
-        val congratsFragment = CongratsFragment()
+        // Setting up
+        val congrats_fragment = CongratsFragment()
         supportFragmentManager.beginTransaction()
-            .replace(R.id.congrats_container, congratsFragment)
+            .replace(R.id.congrats_container, congrats_fragment)
             .commit()
 
-
-        // Get the TextView, RadioButton and Button
-        question = findViewById(R.id.question)
-        radioGroup = findViewById(R.id.answers)
-        answer1 = findViewById(R.id.answer_1)
-        answer2 = findViewById(R.id.answer_2)
-        answer3 = findViewById(R.id.answer_3)
-        validationButt = findViewById(R.id.validation)
-
-
-        // Set the Button text
-        validationButt.setText(R.string.valid_question)
 
     }
 
