@@ -21,7 +21,7 @@ class WifiInfoListener(
 
         if((wifiP2pInfo?.groupFormed == true) && wifiP2pInfo.isGroupOwner){
             wifiActivity.isHost = true
-            wifiActivity.wifiServer = WifiServer(wifiActivity)
+            wifiActivity.wifiServer = WifiHost(wifiActivity)
             wifiActivity.wifiServer.start()
             wifiActivity.textViewStatus.text = wifiActivity.getString(
                 R.string.status, wifiActivity.getString(

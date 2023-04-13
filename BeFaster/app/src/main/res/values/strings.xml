@@ -1,11 +1,20 @@
 <resources>
 
+    # APP NAME
     <string name="app_name">BeFaster</string>
+
+    # MAIN ACTIVITY
+
     <string name="activity_main_multiplayer">Multiplayer</string>
+
+    # WIFI P2P ACTIVITY
+
+    # The values of UI elements
     <string name="activity_wifiDirect_text_peers">Peers available :</string>
     <string name="activity_wifiDirect_button_discover">Discover Peers</string>
     <string name="activity_wifiDirect_button_disconnect">Disconnect</string>
 
+    # The values of the status
     <string name="status">Status : %1$s</string>
     <string name="host">Host</string>
     <string name="client">Client</string>

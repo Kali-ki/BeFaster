@@ -52,7 +52,7 @@ class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
     var isHost : Boolean = false
 
     // Server and client thread
-    lateinit var wifiServer : WifiServer
+    lateinit var wifiServer : WifiHost
     lateinit var wifiClient : WifiClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,15 +64,15 @@ class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
         channel = manager.initialize(this, mainLooper, null)
 
         // UI
-        this.buttonDiscover = findViewById(R.id.button_discover)
-        this.buttonDisconnect = findViewById(R.id.button_disconnect)
-        this.progressBar = findViewById(R.id.progressBar_discovery)
-        this.progressBar.visibility = View.GONE
-        this.listView = findViewById(R.id.peers_listView)
-        this.textViewStatus = findViewById(R.id.textView_status)
+        buttonDiscover = findViewById(R.id.button_discover)
+        buttonDisconnect = findViewById(R.id.button_disconnect)
+        progressBar = findViewById(R.id.progressBar_discovery)
+        progressBar.visibility = View.GONE
+        listView = findViewById(R.id.peers_listView)
+        textViewStatus = findViewById(R.id.textView_status)
 
-        this.listDevice = ArrayList()
-        this.adapter = DeviceP2pAdapter(this, listDevice, this)
+        listDevice = ArrayList()
+        adapter = DeviceP2pAdapter(this, listDevice, this)
         listView.adapter = this.adapter
 
         wifiInfoListener = WifiInfoListener(this)

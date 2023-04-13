@@ -5,23 +5,25 @@ import android.os.Looper
 import android.widget.Toast
 import java.io.InputStream
 import java.io.OutputStream
-import java.net.ServerSocket
-import java.net.Socket
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class WifiServer(private var wifiActivity : WifiDirectActivity) : Thread() {
+abstract class WifiHostClient(private var wifiActivity : WifiDirectActivity) : Thread() {
 
-    private lateinit var serverSocket: ServerSocket
-    private lateinit var inputStream : InputStream
-    private lateinit var outputStream: OutputStream
+    protected var port : Int = 4242
 
-    override fun run() {
+    protected lateinit var inputStream : InputStream
+    protected lateinit var outputStream: OutputStream
 
-        serverSocket = ServerSocket(4242)
-        val socket : Socket = serverSocket.accept()
-        inputStream = socket.getInputStream()
-        outputStream = socket.getOutputStream()
+    abstract fun initializeListen()
+
+    fun write(byteArray: ByteArray){
+        outputStream.write(byteArray)
+    }
+
+    override fun run(){
+
+        initializeListen()
 
         val executor : ExecutorService = Executors.newSingleThreadExecutor()
         val handle = Handler(Looper.getMainLooper())
@@ -42,12 +44,8 @@ class WifiServer(private var wifiActivity : WifiDirectActivity) : Thread() {
                     }
                 }
             }
+
         }
-
-    }
-
-    fun write(byteArray: ByteArray){
-        outputStream.write(byteArray)
     }
 
 }
