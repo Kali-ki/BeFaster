@@ -18,12 +18,6 @@ class WifiReceiver(
     private var wifiActivity: WifiDirectActivity
 ) : BroadcastReceiver() {
 
-    private var manager = wifiActivity.manager
-    private var channel = wifiActivity.channel
-    private var wifiInfoListener = wifiActivity.wifiInfoListener
-    private var progressbar = wifiActivity.progressBar
-    private var isConnected = wifiActivity.isConnected
-
     override fun onReceive(context: Context?, intent: Intent?) {
         when(intent?.action){
 
@@ -38,9 +32,9 @@ class WifiReceiver(
             // Indicates that available peer list has changed
             WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION -> {
                 // Request the list of peers from the wifi p2p manager
-                manager.requestPeers(channel, WifiPeerListener(wifiActivity))
+                wifiActivity.manager.requestPeers(wifiActivity.channel, WifiPeerListener(wifiActivity))
                 // Hide the progress bar
-                this.progressbar.visibility = View.GONE
+                wifiActivity.progressBar.visibility = View.GONE
             }
 
             // Indicates the state of Wi-Fi P2P connectivity has changed
@@ -61,8 +55,8 @@ class WifiReceiver(
                 @Suppress("DEPRECATION" )
                 if(networkInfo?.isConnected == true){
                     Toast.makeText(wifiActivity, "Connection Succeed", Toast.LENGTH_SHORT).show()
-                    manager.requestConnectionInfo(channel, wifiInfoListener)
-                    isConnected = true
+                    wifiActivity.manager.requestConnectionInfo(wifiActivity.channel, wifiActivity.wifiInfoListener)
+                    wifiActivity.isConnected = true
                 }
 
             }

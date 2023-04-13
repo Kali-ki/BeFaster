@@ -1,10 +1,8 @@
 package com.kjnco.befaster.wifiP2p
 
-import android.net.wifi.p2p.WifiP2pDevice
 import android.net.wifi.p2p.WifiP2pDeviceList
 import android.net.wifi.p2p.WifiP2pManager
 import android.widget.Toast
-import com.kjnco.befaster.wifiP2p.WifiDirectActivity
 
 /**
  * A PeerListListener that responds to peer list changes.
@@ -15,9 +13,6 @@ class WifiPeerListener(
 )
     : WifiP2pManager.PeerListListener {
 
-    private var peers : ArrayList<WifiP2pDevice> = wifiActivity.listDevice
-    private var adapter : WifiDirectActivity.DeviceP2pAdapter = wifiActivity.adapter
-
     // --- WifiP2pManager.PeerListListener overrides ----------------------------------------------
 
     override fun onPeersAvailable(peerList: WifiP2pDeviceList?) {
@@ -25,19 +20,19 @@ class WifiPeerListener(
         // Get the list of (new) peers
         val refreshedPeers = peerList?.deviceList
 
-        if (refreshedPeers != peers) {
-            peers.clear()
+        if (refreshedPeers != wifiActivity.listDevice) {
+            wifiActivity.listDevice.clear()
             if (refreshedPeers != null) {
-                peers.addAll(refreshedPeers)
+                wifiActivity.listDevice.addAll(refreshedPeers)
             }
         }
 
-        if (peers.isEmpty()) {
+        if (wifiActivity.listDevice.isEmpty()) {
             Toast.makeText(wifiActivity, "No device found", Toast.LENGTH_SHORT).show()
         }
 
         // Update the UI
-        adapter.notifyDataSetChanged()
+        wifiActivity.adapter.notifyDataSetChanged()
 
     }
 

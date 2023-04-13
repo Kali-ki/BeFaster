@@ -2,6 +2,7 @@ package com.kjnco.befaster.wifiP2p
 
 import android.content.Context
 import android.content.IntentFilter
+import android.database.Observable
 import android.net.wifi.WpsInfo
 import android.net.wifi.p2p.WifiP2pConfig
 import android.net.wifi.p2p.WifiP2pDevice
@@ -13,8 +14,13 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.kjnco.befaster.R
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
+
+    // Messages received
+    // var messages_received : ObservableList<String> = ObservableList()
 
     // UI elements
     lateinit var textViewStatus : TextView
@@ -22,10 +28,6 @@ class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
     private lateinit var buttonDisconnect : Button
     lateinit var progressBar: ProgressBar
     private lateinit var listView : ListView
-
-    // Connection status
-    var connectionStatus : String = "Not connected"
-    var isConnected : Boolean = false
 
     // List of devices
     lateinit var listDevice: ArrayList<WifiP2pDevice>
@@ -44,6 +46,14 @@ class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
 
     // Wifi info listener implementation
     lateinit var wifiInfoListener: WifiInfoListener
+
+    // Connection status
+    var isConnected : Boolean = false
+    var isHost : Boolean = false
+
+    // Server and client thread
+    lateinit var wifiServer : WifiServer
+    lateinit var wifiClient : WifiClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +86,7 @@ class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
         // Indicates this device's details have changed.
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION)
 
-        this.textViewStatus.text = getString(R.string.status, connectionStatus)
+        this.textViewStatus.text = getString(R.string.status, getString(R.string.activity_wifiDirect_notConnected))
 
         // Discover peers when button "Discover Peers" is clicked
         buttonDiscover.setOnClickListener {
@@ -116,6 +126,21 @@ class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
     // --- Methods --------------------------------------------------------------------------------
 
     /**
+     * Send a message to the other device
+     */
+    fun sendMsg(msg : String){
+        val executor : ExecutorService = Executors.newSingleThreadExecutor()
+        executor.execute {
+            if(isHost){
+                wifiServer.write(msg.toByteArray())
+            }else{
+                wifiClient.write(msg.toByteArray())
+            }
+
+        }
+    }
+
+    /**
      * Discover peers
      */
     private fun discoverPeers() {
@@ -145,9 +170,7 @@ class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
 
                 override fun onSuccess() {
                     Toast.makeText(applicationContext, "Disconnected", Toast.LENGTH_SHORT).show()
-
-                    connectionStatus = "Not connected"
-                    textViewStatus.text = getString(R.string.status, connectionStatus)
+                    textViewStatus.text = getString(R.string.status, getString(R.string.activity_wifiDirect_notConnected))
                 }
 
                 override fun onFailure(reasonCode: Int) {
@@ -205,6 +228,10 @@ class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
 
             return view
         }
+
+    }
+
+    class ObservableList<T> : Observable<T>() {
 
     }
 
