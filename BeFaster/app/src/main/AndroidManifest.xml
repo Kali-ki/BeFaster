@@ -35,7 +35,7 @@
         <activity android:name=".main_menu.MultiplayerActivity"/>
         <activity android:name=".main_menu.SettingsActivity"/>
         <activity android:name=".quiz.QuizMenu"/>
-        <activity android:name=".quiz.Q1"/>
+        <activity android:name=".quiz.Quiz"/>
         <activity android:name=".quiz.RightAnswer"/>
         <activity android:name=".quiz.WrongAnswer"/>
 

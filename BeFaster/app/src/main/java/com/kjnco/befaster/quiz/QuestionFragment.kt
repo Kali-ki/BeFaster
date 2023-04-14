@@ -1,5 +1,7 @@
 package com.kjnco.befaster.quiz
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,7 +18,7 @@ import java.util.*
  * A question fragment corresponding to one question
  *     and three answers.
  */
-class QuestionFragment : Fragment(R.layout.fragment_question) {
+class QuestionFragment : Fragment(R.layout.fragment_question){
 
     // Question IDs
     private var question: Int = 0
@@ -26,6 +28,26 @@ class QuestionFragment : Fragment(R.layout.fragment_question) {
     private var answer3: Int = 0
 
     private var correctAnswerIndex: Int = 0
+
+    companion object {
+        private const val ARG_QUESTION = "question"
+        private const val ARG_ANSWER_1 = "answer1"
+        private const val ARG_ANSWER_2 = "answer2"
+        private const val ARG_ANSWER_3 = "answer3"
+        private const val ARG_ANSWER = "correctAnswer"
+
+        fun newInstance(question: Int, answer1: Int, answer2: Int, answer3: Int, correctAnswer: Int): QuestionFragment {
+            val fragment = QuestionFragment()
+            val args = Bundle()
+            args.putInt(ARG_QUESTION, question)
+            args.putInt(ARG_ANSWER_1, answer1)
+            args.putInt(ARG_ANSWER_2, answer2)
+            args.putInt(ARG_ANSWER_3, answer3)
+            args.putInt(ARG_ANSWER, correctAnswer)
+            fragment.arguments = args
+            return fragment
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +62,7 @@ class QuestionFragment : Fragment(R.layout.fragment_question) {
         answer2 = arguments?.getInt("answer2")!!
         answer3 = arguments?.getInt("answer3")!!
 
-        // Determinig the index of the correct answer
+        // Determining the index of the correct answer
         correctAnswerIndex = when (correctAnswer) {
             answer1 -> 1
             answer2 -> 2
@@ -75,21 +97,15 @@ class QuestionFragment : Fragment(R.layout.fragment_question) {
 
             // Time
             val endTime = Date().time
-            val answerTime = endTime - startTime
+            val answerTime = (endTime - startTime)/1000
 
             val isAnswerCorrect: Boolean = checkTheAnswer(selectedAnswer)
+
             // Switch to the congrats fragment when
             // the user submit his answer
-
-            // Setting up the data to throw to the next fragment
-            val bundle = Bundle()
-            bundle.putBoolean("isAnswerCorrect", isAnswerCorrect)
-            bundle.putString("answerTime", answerTime.toString())
-
-            val congratsFragment = CongratsFragment()
-            congratsFragment.arguments = bundle
+            val congratsFragment = CongratsFragment.newInstance(isAnswerCorrect, answerTime)
             val transaction = requireActivity().supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.congrats_container, congratsFragment)
+            transaction.replace(R.id.fragment_container, congratsFragment)
             transaction.commit()
         }
         return view
@@ -119,4 +135,5 @@ class QuestionFragment : Fragment(R.layout.fragment_question) {
         }
         return isAnswerCorrect
     }
+
 }

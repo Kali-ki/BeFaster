@@ -1,25 +1,27 @@
 package com.kjnco.befaster.quiz
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.TextView
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.kjnco.befaster.R
+import com.kjnco.befaster.main_menu.TrainingActivity
 
-class Quiz: AppCompatActivity(){
+class Quiz: AppCompatActivity() {
 
-    // Storing question id as key and answers id as values
-    public var questionList = mutableMapOf<Int, List<Int>>()
+    companion object {
+        // Storing question id as key and answers id as values
+        var questionList = mutableMapOf<Int, List<Int>>()
 
-    // Storing question id as key and correct answer id as value
-    public val correctAnswerList = hashMapOf<Int, Int>()
+        // Storing question id as key and correct answer id as value
+        val correctAnswerList = hashMapOf<Int, Int>()
+
+        // Question index
+        var currentQuestionIndex = 0
+    }
 
     // Declare the number of question to iterate on
     val numberOfQuestions: Int = 6
-
-    // Declare the ViewPager2 and the fragment
 
     init {
         // Fill the questionList
@@ -54,29 +56,41 @@ class Quiz: AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fast_quiz_question)
-        // Setting up a Bundle
-        val bundle = Bundle()
-        bundle.putInt("question", questionList.keys.elementAt(0))
-        bundle.putInt("correctAnswer", correctAnswerList[questionList.keys.elementAt(0)]?:0)
-        bundle.putInt("answer1", questionList[questionList.keys.elementAt(0)]?.get(0)?:0)
-        bundle.putInt("answer2", questionList[questionList.keys.elementAt(0)]?.get(1)?:0)
-        bundle.putInt("answer3", questionList[questionList.keys.elementAt(0)]?.get(2)?:0)
-        val question_fragment = QuestionFragment()
-        // Passing the question and the answers to the fragment
-        question_fragment.arguments = bundle
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.question_container, question_fragment)
-            .commit()
+        setContentView(R.layout.activity_quiz)
 
-        // Setting up
-        val congrats_fragment = CongratsFragment()
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.congrats_container, congrats_fragment)
-            .commit()
+        // Setting up fragment manager and fragment transaction
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
 
-
+        // Assign the question and the answer to the fragment
+        val question: Int = questionList.keys.elementAt(0)
+        val answers: List<Int> = questionList.values.elementAt(0)
+        val questionFragment = QuestionFragment.newInstance(question, answers[0], answers[1], answers[2], correctAnswerList[question]!!)
+        fragmentTransaction.add(R.id.fragment_container, questionFragment)
+        fragmentTransaction.commit()
     }
 
+    /**
+     * Function to change the question
+     */
+    fun setTheNextQuestion() {
+        currentQuestionIndex ++
+        if (currentQuestionIndex < questionList.size - 1) {
+                val question: Int = questionList.keys.elementAt(currentQuestionIndex)
+                val answers: List<Int> = questionList.values.elementAt(currentQuestionIndex)
+                val questionFragment = QuestionFragment.newInstance(question, answers[0], answers[1], answers[2], correctAnswerList[question]!!)
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, questionFragment)
+                    .commit()
+            }else {
+                val intent = Intent(this, TrainingActivity::class.java)
+                   startActivity(intent)
+        }
+    }
+    /**
+     * Empty function to avoid the error
+     */
+    fun onRadioButtonClicked(view: View) {
+    }
 
 }
