@@ -30,7 +30,7 @@ class QuizMenu: AppCompatActivity() {
 
         // Set the action of the button
         start.setOnClickListener {
-            val intent = Intent(this, Q1::class.java)
+            val intent = Intent(this, Quiz::class.java)
             startActivity(intent)
         }
     }
