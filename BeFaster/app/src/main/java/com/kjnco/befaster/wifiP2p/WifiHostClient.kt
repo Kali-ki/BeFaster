@@ -39,7 +39,8 @@ abstract class WifiHostClient(private var wifiActivity : WifiDirectActivity) : T
                     val finalBytes : Int = bytes
                     handle.post {
                         val tempMsg = String(buffer, 0, finalBytes)
-                        //wifiActivity.messages_received.add(tempMsg)
+                        wifiActivity.answers.push(tempMsg)
+                        wifiActivity.hasAnswer.release()
                         Toast.makeText(wifiActivity, tempMsg, Toast.LENGTH_SHORT).show()
                     }
                 }

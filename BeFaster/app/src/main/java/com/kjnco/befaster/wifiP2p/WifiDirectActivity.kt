@@ -2,7 +2,6 @@ package com.kjnco.befaster.wifiP2p
 
 import android.content.Context
 import android.content.IntentFilter
-import android.database.Observable
 import android.net.wifi.WpsInfo
 import android.net.wifi.p2p.WifiP2pConfig
 import android.net.wifi.p2p.WifiP2pDevice
@@ -14,13 +13,15 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.kjnco.befaster.R
+import java.util.LinkedList
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import java.util.concurrent.Semaphore
 
 class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
 
-    // Messages received
-    // var messages_received : ObservableList<String> = ObservableList()
+    var hasAnswer: Semaphore = Semaphore(0)
+    var answers : LinkedList<String> = LinkedList()
 
     // UI elements
     lateinit var textViewStatus : TextView
@@ -136,8 +137,12 @@ class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
             }else{
                 wifiClient.write(msg.toByteArray())
             }
-
         }
+    }
+
+    fun waitForMessage() : String {
+        hasAnswer.acquire()
+        return answers.pop()
     }
 
     /**
@@ -228,10 +233,6 @@ class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
 
             return view
         }
-
-    }
-
-    class ObservableList<T> : Observable<T>() {
 
     }
 
