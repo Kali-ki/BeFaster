@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.kjnco.befaster.main_menu.SettingsActivity
 import com.kjnco.befaster.main_menu.TrainingActivity
 import com.kjnco.befaster.wifiP2p.WifiDirectActivity
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         // Set up Button Multiplayer
         multiplayerButton = findViewById(R.id.multiplayer_button)
         multiplayerButton.setOnClickListener {
+
             if(!isP2pSupported()) {
                 Toast.makeText(this, "P2P not supported", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -40,6 +42,12 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Start GPS and retry", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+            if(!isLocationPermissionGranted()){
+                Toast.makeText(this, "BeFaster need location to run the multiplayer mode", Toast.LENGTH_LONG).show()
+                requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 1)
+                return@setOnClickListener
+            }
+
             startActivity(Intent(this, WifiDirectActivity::class.java))
         }
 
@@ -76,7 +84,7 @@ class MainActivity : AppCompatActivity() {
      * Check if Wifi is enabled
      */
     private fun isWifiEnabled() : Boolean {
-        val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val wifiManager = getSystemService(Context.WIFI_SERVICE) as WifiManager
         return wifiManager.isWifiEnabled
     }
 
@@ -86,6 +94,10 @@ class MainActivity : AppCompatActivity() {
     private fun isGpsEnabled() : Boolean {
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+    }
+
+    private fun isLocationPermissionGranted() : Boolean {
+        return ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
     }
 
 }
