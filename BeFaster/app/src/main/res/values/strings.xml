@@ -9,6 +9,7 @@
     <string name="status">Status : %1$s</string>
     <string name="host">Host</string>
     <string name="client">Client</string>
+    <string name="activity_wifiDirect_notConnected">Not Connected</string>
 
     <style name="EM">
         <item name="android:fontFamily">"sans-serif-medium"</item>
