@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Build.VERSION
 import android.view.View
 import android.widget.Toast
+import com.kjnco.befaster.R
 
 /**
  * This class is a BroadcastReceiver that listens for Wifi P2P events
@@ -53,10 +54,14 @@ class WifiReceiver(
                 }
 
                 @Suppress("DEPRECATION" )
-                if(networkInfo?.isConnected == true){
+                if(networkInfo?.isConnected == true){ // Connected
                     Toast.makeText(wifiActivity, "Connection Succeed", Toast.LENGTH_SHORT).show()
                     wifiActivity.manager.requestConnectionInfo(wifiActivity.channel, wifiActivity.wifiInfoListener)
                     wifiActivity.isConnected = true
+                }else{ // Disconnected
+                    if (wifiActivity.isHost) wifiActivity.isHost = false
+                    wifiActivity.isConnected = false
+                    wifiActivity.textViewStatus.text = wifiActivity.getString(R.string.status, wifiActivity.getString(R.string.activity_wifiDirect_notConnected))
                 }
 
             }

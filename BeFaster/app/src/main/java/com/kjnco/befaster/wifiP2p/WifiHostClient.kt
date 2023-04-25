@@ -2,7 +2,6 @@ package com.kjnco.befaster.wifiP2p
 
 import android.os.Handler
 import android.os.Looper
-import android.widget.Toast
 import java.io.InputStream
 import java.io.OutputStream
 import java.util.concurrent.ExecutorService
@@ -15,7 +14,17 @@ abstract class WifiHostClient(private var wifiActivity : WifiDirectActivity) : T
     protected lateinit var inputStream : InputStream
     protected lateinit var outputStream: OutputStream
 
-    abstract fun initializeListen()
+    private var executor : ExecutorService = Executors.newSingleThreadExecutor()
+
+    protected abstract fun initializeListen()
+
+    abstract fun endListen()
+
+    override fun interrupt(){
+        super.interrupt()
+        executor.shutdownNow()
+        endListen()
+    }
 
     fun write(byteArray: ByteArray){
         outputStream.write(byteArray)
@@ -25,28 +34,37 @@ abstract class WifiHostClient(private var wifiActivity : WifiDirectActivity) : T
 
         initializeListen()
 
-        val executor : ExecutorService = Executors.newSingleThreadExecutor()
-        val handle = Handler(Looper.getMainLooper())
+        Looper.prepare()
+        val handle = Looper.myLooper()?.let { Handler(it) }
 
         executor.execute {
 
             val buffer = ByteArray(1024)
             var bytes : Int
 
-            while(true){
+            while(!currentThread().isInterrupted){
+
+                if(inputStream.available() == 0){
+                    continue
+                }
+
                 bytes = inputStream.read(buffer)
+
                 if(bytes > 0){
                     val finalBytes : Int = bytes
-                    handle.post {
+                    handle?.post {
                         val tempMsg = String(buffer, 0, finalBytes)
-                        wifiActivity.answers.push(tempMsg)
-                        wifiActivity.hasAnswer.release()
-                        Toast.makeText(wifiActivity, tempMsg, Toast.LENGTH_SHORT).show()
+                        wifiActivity.answers.add(tempMsg)
+                        wifiActivity.semaphore.release()
                     }
                 }
+
             }
 
         }
+
+        Looper.loop()
+
     }
 
 }

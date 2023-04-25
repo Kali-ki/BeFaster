@@ -13,15 +13,16 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.kjnco.befaster.R
-import java.util.LinkedList
+import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.Semaphore
 
 class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
 
-    var hasAnswer: Semaphore = Semaphore(0)
-    var answers : LinkedList<String> = LinkedList()
+    // Attributes to send receive messages
+    internal var semaphore : Semaphore = Semaphore(0)
+    internal var answers : LinkedList<String> = LinkedList()
 
     // UI elements
     lateinit var textViewStatus : TextView
@@ -52,9 +53,8 @@ class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
     var isConnected : Boolean = false
     var isHost : Boolean = false
 
-    // Server and client thread
-    lateinit var wifiServer : WifiHost
-    lateinit var wifiClient : WifiClient
+    // ServerClient thread
+    lateinit var wifiServerClient : WifiHostClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,7 +96,17 @@ class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
 
         // Disconnect peers when button "Disconnect Peers" is clicked
         buttonDisconnect.setOnClickListener {
+            stopThread()
             disconnectPeers()
+        }
+
+        findViewById<Button>(R.id.buttonTestSend).setOnClickListener {
+            sendMsg("Hello")
+        }
+
+        findViewById<Button>(R.id.buttonTestReceive).setOnClickListener {
+            val res = waitForMessage()
+            Toast.makeText(this, res, Toast.LENGTH_SHORT).show()
         }
 
         // Discover peers
@@ -104,24 +114,33 @@ class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
 
     }
 
-    // When the activity is resumed, register the broadcast receiver
+    /**
+     * When the activity is resumed, register the broadcast receiver
+     */
     override fun onResume() {
         super.onResume()
         receiver = WifiReceiver(this)
         registerReceiver(receiver, intentFilter)
     }
 
-    // When the activity is paused, unregister the broadcast receiver
+    /**
+     * When the activity is paused, unregister the broadcast receiver
+     * and disconnect peers
+     */
     override fun onPause() {
         super.onPause()
+        stopThread()
+        disconnectPeers()
         unregisterReceiver(receiver)
     }
 
     // --- WifiP2pManager.ChannelListener overrides -----------------------------------------------
 
-    // Called when the channel is disconnected
+    /**
+     * Called when the channel is disconnected
+     */
     override fun onChannelDisconnected() {
-        TODO()
+        // Do nothing
     }
 
     // --- Methods --------------------------------------------------------------------------------
@@ -132,17 +151,13 @@ class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
     fun sendMsg(msg : String){
         val executor : ExecutorService = Executors.newSingleThreadExecutor()
         executor.execute {
-            if(isHost){
-                wifiServer.write(msg.toByteArray())
-            }else{
-                wifiClient.write(msg.toByteArray())
-            }
+            wifiServerClient.write(msg.toByteArray())
         }
     }
 
-    fun waitForMessage() : String {
-        hasAnswer.acquire()
-        return answers.pop()
+    fun waitForMessage() : String? {
+        semaphore.acquire()
+        return answers.poll()
     }
 
     /**
@@ -175,7 +190,6 @@ class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
 
                 override fun onSuccess() {
                     Toast.makeText(applicationContext, "Disconnected", Toast.LENGTH_SHORT).show()
-                    textViewStatus.text = getString(R.string.status, getString(R.string.activity_wifiDirect_notConnected))
                 }
 
                 override fun onFailure(reasonCode: Int) {
@@ -183,6 +197,11 @@ class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
                 }
 
             })
+
+    }
+
+    private fun stopThread(){
+        wifiServerClient.interrupt()
     }
 
     /**

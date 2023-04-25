@@ -16,4 +16,8 @@ class WifiHost(
         outputStream = socket.getOutputStream()
     }
 
+    override fun endListen() {
+        serverSocket.close()
+    }
+
 }

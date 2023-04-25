@@ -18,4 +18,8 @@ class WifiClient(
         outputStream = socket.getOutputStream()
     }
 
+    override fun endListen() {
+        socket.close()
+    }
+
 }

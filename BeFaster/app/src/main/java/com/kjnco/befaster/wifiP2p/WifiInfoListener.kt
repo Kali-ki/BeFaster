@@ -17,25 +17,24 @@ class WifiInfoListener(
      */
     override fun onConnectionInfoAvailable(wifiP2pInfo: WifiP2pInfo?) {
 
-        // val groupOwnerAddress : InetAddress? = wifiP2pInfo?.groupOwnerAddress
-
         if((wifiP2pInfo?.groupFormed == true) && wifiP2pInfo.isGroupOwner){
             wifiActivity.isHost = true
-            wifiActivity.wifiServer = WifiHost(wifiActivity)
-            wifiActivity.wifiServer.start()
+            wifiActivity.wifiServerClient = WifiHost(wifiActivity)
+            wifiActivity.wifiServerClient.start()
             wifiActivity.textViewStatus.text = wifiActivity.getString(
                 R.string.status, wifiActivity.getString(
                     R.string.host
                 ))
         }else if(wifiP2pInfo?.groupFormed == true){
             wifiActivity.isHost = false
-            wifiActivity.wifiClient = WifiClient(wifiP2pInfo.groupOwnerAddress, wifiActivity)
-            wifiActivity.wifiClient.start()
+            wifiActivity.wifiServerClient = WifiClient(wifiP2pInfo.groupOwnerAddress, wifiActivity)
+            wifiActivity.wifiServerClient.start()
             wifiActivity.textViewStatus.text = wifiActivity.getString(
                 R.string.status, wifiActivity.getString(
                     R.string.client
                 ))
         }
+
     }
 
 }
