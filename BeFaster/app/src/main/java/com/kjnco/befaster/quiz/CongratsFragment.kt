@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import com.kjnco.befaster.R
 import android.os.Looper
 
-class CongratsFragment: Fragment(R.layout.fragment_congrats) {
+class CongratsFragment: Fragment() {
 
     companion object{
         private const val ARG_IS_CORRECT = "isAnswerCorrect"
@@ -38,26 +38,21 @@ class CongratsFragment: Fragment(R.layout.fragment_congrats) {
         val answerTime = arguments?.getLong("answerTime")!!
 
         // View
-        val view: View = inflater.inflate(R.layout.fragment_congrats, container, false)
+        val view: View = inflater.inflate(R.layout.activity_congrats, container, false)
 
         // Elements
         val answerImage: ImageView = view.findViewById(R.id.answer_image)
 
-        // Set the image
+        // Set the image and the Toast
         if (isCorrect) {
             answerImage.setImageResource(R.drawable.right_answer)
-        } else {
-            answerImage.setImageResource(R.drawable.wrong_answer)
-        }
-
-        // Toast
-        if (isCorrect) {
             Toast.makeText(context, "Bien joué, tu as répondu en $answerTime s.", Toast.LENGTH_SHORT).show()
         } else {
+            answerImage.setImageResource(R.drawable.wrong_answer)
             Toast.makeText(context, "Mauvaise réponse, tu as répondu en $answerTime s.", Toast.LENGTH_SHORT).show()
         }
 
-        Handler(Looper.getMainLooper()).postDelayed({
+       Handler(Looper.getMainLooper()).postDelayed({
             (activity as? Quiz)?.setTheNextQuestion()
         }, 3000)
 
