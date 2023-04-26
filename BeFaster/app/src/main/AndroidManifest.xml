@@ -40,8 +40,6 @@
         <activity android:name=".main_menu.SettingsActivity"/>
         <activity android:name=".quiz.QuizMenu"/>
         <activity android:name=".quiz.Quiz"/>
-        <activity android:name=".quiz.RightAnswer"/>
-        <activity android:name=".quiz.WrongAnswer"/>
 
         <meta-data
             android:name="preloaded_fonts"
