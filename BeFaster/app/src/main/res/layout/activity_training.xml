@@ -50,6 +50,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:background="@drawable/rounded_corners"
+        android:padding="10dp"
         android:textColor="@color/white"/>
 
     <Button
