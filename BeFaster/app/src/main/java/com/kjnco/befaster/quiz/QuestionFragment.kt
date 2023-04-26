@@ -18,7 +18,7 @@ import java.util.*
  * A question fragment corresponding to one question
  *     and three answers.
  */
-class QuestionFragment : Fragment(R.layout.fragment_question){
+class QuestionFragment : Fragment(){
 
     // Question IDs
     private var question: Int = 0
