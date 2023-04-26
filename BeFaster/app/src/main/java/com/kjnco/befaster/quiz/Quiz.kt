@@ -84,7 +84,7 @@ class Quiz: AppCompatActivity() {
                     .commit()
             }else {
                 val intent = Intent(this, TrainingActivity::class.java)
-                   startActivity(intent)
+                startActivity(intent)
         }
     }
     /**
