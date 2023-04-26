@@ -36,15 +36,6 @@ class WifiCommunication private constructor() {
 
     /**
      * Wait for a message and return it
-     * @return the message received
-     */
-    fun waitForMessage() : String? {
-        semaphore.acquire()
-        return answers.poll()
-    }
-
-    /**
-     * Wait for a message and return it
      * @return the message received or null if timeout
      */
     suspend fun waitForMessageSuspend(): String? {
