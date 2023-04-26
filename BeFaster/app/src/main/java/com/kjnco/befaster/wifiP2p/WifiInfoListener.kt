@@ -2,7 +2,6 @@ package com.kjnco.befaster.wifiP2p
 
 import android.net.wifi.p2p.WifiP2pInfo
 import android.net.wifi.p2p.WifiP2pManager
-import com.kjnco.befaster.R
 
 /**
  * Custom Implementation of WifiP2pManager.ConnectionInfoListener
@@ -17,22 +16,22 @@ class WifiInfoListener(
      */
     override fun onConnectionInfoAvailable(wifiP2pInfo: WifiP2pInfo?) {
 
-        if((wifiP2pInfo?.groupFormed == true) && wifiP2pInfo.isGroupOwner){
+        if((wifiP2pInfo?.groupFormed == true) && wifiP2pInfo.isGroupOwner){ // if host
             wifiActivity.isHost = true
-            wifiActivity.wifiServerClient = WifiHost(wifiActivity)
-            wifiActivity.wifiServerClient.start()
-            wifiActivity.textViewStatus.text = wifiActivity.getString(
-                R.string.status, wifiActivity.getString(
-                    R.string.host
-                ))
-        }else if(wifiP2pInfo?.groupFormed == true){
+            val wifiCommunication : WifiCommunication = WifiCommunication.getInstance()
+            val wifiHost = WifiHost.getInstance(wifiCommunication)
+            wifiCommunication.wifiServerClient = wifiHost
+            wifiHost.start()
+            WifiHost.isRunning = true
+            wifiActivity.goToSelectGameActivity()
+        }else if(wifiP2pInfo?.groupFormed == true){ // if client
             wifiActivity.isHost = false
-            wifiActivity.wifiServerClient = WifiClient(wifiP2pInfo.groupOwnerAddress, wifiActivity)
-            wifiActivity.wifiServerClient.start()
-            wifiActivity.textViewStatus.text = wifiActivity.getString(
-                R.string.status, wifiActivity.getString(
-                    R.string.client
-                ))
+            val wifiCommunication : WifiCommunication = WifiCommunication.getInstance()
+            val wifiClient = WifiClient.getInstance(wifiP2pInfo.groupOwnerAddress, wifiCommunication)
+            wifiCommunication.wifiServerClient = wifiClient
+            wifiClient.start()
+            WifiClient.isRunning = true
+            wifiActivity.goToSelectGameActivity()
         }
 
     }

@@ -1,6 +1,7 @@
 package com.kjnco.befaster.wifiP2p
 
 import android.content.Context
+import android.content.Intent
 import android.content.IntentFilter
 import android.net.wifi.WpsInfo
 import android.net.wifi.p2p.WifiP2pConfig
@@ -13,69 +14,76 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.kjnco.befaster.R
+import com.kjnco.befaster.SelectGameActivity
 import java.util.*
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
-import java.util.concurrent.Semaphore
 
+/**
+ * Activity to manage the Wifi Direct connection and communication
+ */
 class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
 
-    // Attributes to send receive messages
-    internal var semaphore : Semaphore = Semaphore(0)
-    internal var answers : LinkedList<String> = LinkedList()
-
-    // UI elements
-    lateinit var textViewStatus : TextView
+    // UI elements of the activity
     private lateinit var buttonDiscover : Button
-    private lateinit var buttonDisconnect : Button
-    lateinit var progressBar: ProgressBar
+    internal lateinit var progressBar: ProgressBar
     private lateinit var listView : ListView
 
     // List of devices
-    lateinit var listDevice: ArrayList<WifiP2pDevice>
+    internal lateinit var listDevice: ArrayList<WifiP2pDevice>
     // Adapter for the list of devices
-    lateinit var adapter: DeviceP2pAdapter
+    internal lateinit var adapter: DeviceP2pAdapter
 
     // Intent filter
     private var intentFilter : IntentFilter = IntentFilter()
     // Channel
-    lateinit var channel : WifiP2pManager.Channel
+    internal lateinit var channel : WifiP2pManager.Channel
     // Manager
-    lateinit var manager : WifiP2pManager
+    internal lateinit var manager : WifiP2pManager
 
     // Broadcast receiver implementation
     private lateinit var receiver : WifiReceiver
 
     // Wifi info listener implementation
-    lateinit var wifiInfoListener: WifiInfoListener
+    internal lateinit var wifiInfoListener: WifiInfoListener
 
     // Connection status
-    var isConnected : Boolean = false
-    var isHost : Boolean = false
+    internal var isConnected : Boolean = false
+    internal var isHost : Boolean = false
 
-    // ServerClient thread
-    lateinit var wifiServerClient : WifiHostClient
+    // --- Activity overrides ---------------------------------------------------------------------
 
+    /**
+     * When the activity is created, initialize the UI and the Wifi Direct manager
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wifi_direct)
+
+        // UI elements
+        buttonDiscover = findViewById(R.id.button_discover)
+        progressBar = findViewById(R.id.progressBar_discovery)
+        progressBar.visibility = View.GONE
+        listView = findViewById(R.id.peers_listView)
 
         // Initialize manager and channel
         manager = getSystemService(Context.WIFI_P2P_SERVICE) as WifiP2pManager
         channel = manager.initialize(this, mainLooper, null)
 
-        // UI
-        buttonDiscover = findViewById(R.id.button_discover)
-        buttonDisconnect = findViewById(R.id.button_disconnect)
-        progressBar = findViewById(R.id.progressBar_discovery)
-        progressBar.visibility = View.GONE
-        listView = findViewById(R.id.peers_listView)
-        textViewStatus = findViewById(R.id.textView_status)
+        // Stop the communication thread if it is running
+        if(WifiHost.isRunning || WifiClient.isRunning){
+            WifiCommunication.getInstance().stopThread()
+            WifiHost.isRunning = false
+            WifiClient.isRunning = false
+        }
 
+        // Disconnect peers
+        disconnectPeers()
+
+        // Initialize the list of devices and the adapter associated
         listDevice = ArrayList()
         adapter = DeviceP2pAdapter(this, listDevice, this)
         listView.adapter = this.adapter
 
+        // Initialize the wifi info listener
         wifiInfoListener = WifiInfoListener(this)
 
         // Indicates a change in the Wi-Fi Direct status.
@@ -87,31 +95,19 @@ class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
         // Indicates this device's details have changed.
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION)
 
-        this.textViewStatus.text = getString(R.string.status, getString(R.string.activity_wifiDirect_notConnected))
-
         // Discover peers when button "Discover Peers" is clicked
         buttonDiscover.setOnClickListener {
             discoverPeers()
         }
 
-        // Disconnect peers when button "Disconnect Peers" is clicked
-        buttonDisconnect.setOnClickListener {
-            stopThread()
-            disconnectPeers()
-        }
-
-        findViewById<Button>(R.id.buttonTestSend).setOnClickListener {
-            sendMsg("Hello")
-        }
-
-        findViewById<Button>(R.id.buttonTestReceive).setOnClickListener {
-            val res = waitForMessage()
-            Toast.makeText(this, res, Toast.LENGTH_SHORT).show()
-        }
-
         // Discover peers
         discoverPeers()
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        disconnectPeers()
     }
 
     /**
@@ -129,9 +125,17 @@ class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
      */
     override fun onPause() {
         super.onPause()
-        stopThread()
-        disconnectPeers()
         unregisterReceiver(receiver)
+    }
+
+    // --- Go to SelectGameActivity ---------------------------------------------------------------
+
+    fun goToSelectGameActivity(){
+        if(isConnected){
+            val intent = Intent(this, SelectGameActivity::class.java)
+            intent.putExtra("isHost", isHost)
+            startActivity(intent)
+        }
     }
 
     // --- WifiP2pManager.ChannelListener overrides -----------------------------------------------
@@ -143,22 +147,7 @@ class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
         // Do nothing
     }
 
-    // --- Methods --------------------------------------------------------------------------------
-
-    /**
-     * Send a message to the other device
-     */
-    fun sendMsg(msg : String){
-        val executor : ExecutorService = Executors.newSingleThreadExecutor()
-        executor.execute {
-            wifiServerClient.write(msg.toByteArray())
-        }
-    }
-
-    fun waitForMessage() : String? {
-        semaphore.acquire()
-        return answers.poll()
-    }
+    // --- Peers management methods ---------------------------------------------------------------
 
     /**
      * Discover peers
@@ -193,15 +182,11 @@ class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
                 }
 
                 override fun onFailure(reasonCode: Int) {
-                    Toast.makeText(applicationContext, "Disconnect Failed ; ERROR $reasonCode", Toast.LENGTH_SHORT).show()
+                    // Toast.makeText(applicationContext, "Disconnect Failed ; ERROR $reasonCode", Toast.LENGTH_SHORT).show()
                 }
 
             })
 
-    }
-
-    private fun stopThread(){
-        wifiServerClient.interrupt()
     }
 
     /**
