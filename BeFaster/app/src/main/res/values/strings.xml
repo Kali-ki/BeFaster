@@ -61,6 +61,6 @@
     </style>
 
     <string name="question_computation">Le score est en cours de calcul…</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="self_generated_fr">Mémorisation auto-généré</string>
 </resources>
