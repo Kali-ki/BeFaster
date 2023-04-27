@@ -19,10 +19,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.kjnco.befaster.R
-import java.util.LinkedList
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
-import java.util.concurrent.Semaphore
 import com.kjnco.befaster.SelectGameActivity
 
 /**
