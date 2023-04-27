@@ -2,6 +2,7 @@ package com.kjnco.befaster.quiz
 
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,6 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.kjnco.befaster.R
-import android.os.Looper
 
 class CongratsFragment: Fragment() {
 
@@ -31,7 +31,7 @@ class CongratsFragment: Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         // Arguments
         val isCorrect = arguments?.getBoolean("isAnswerCorrect")!!
