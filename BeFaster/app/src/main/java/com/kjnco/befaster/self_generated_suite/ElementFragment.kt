@@ -3,11 +3,11 @@ package com.kjnco.befaster.self_generated_suite
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.fragment.app.Fragment
 import com.kjnco.befaster.R
 
 class ElementFragment : Fragment() {

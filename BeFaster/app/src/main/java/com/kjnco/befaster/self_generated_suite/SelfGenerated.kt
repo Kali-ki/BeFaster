@@ -1,8 +1,8 @@
 package com.kjnco.befaster.self_generated_suite
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.kjnco.befaster.R
 
 class SelfGenerated : AppCompatActivity() {
@@ -11,14 +11,13 @@ class SelfGenerated : AppCompatActivity() {
     companion object {
         const val DURATION = 3000L
         const val DELAY = 1000L
-        const val RESTITUTION = 3000L
-        const val NUMBER_OF_ELEMENT = 6
+        const val NUMBER_OF_ELEMENT = 3
         var currentIteration = 0
         const val NUMBER_OF_SEQUENCE = 3
         var currentSequence = 0
     }
 
-    val arrows = listOf(R.drawable.arrow_up, R.drawable.arrow_right, R.drawable.arrow_down, R.drawable.arrow_left)
+    private val arrows = listOf(R.drawable.arrow_up, R.drawable.arrow_right, R.drawable.arrow_down, R.drawable.arrow_left)
     var listOfArrows = mutableListOf<Int>()
 
     init {
@@ -50,7 +49,9 @@ class SelfGenerated : AppCompatActivity() {
                 .commit()
         }else {
             val intent = Intent(this, RestitutionActivity::class.java)
-            intent.putExtra("listOfArrows", listOfArrows.toIntArray())
+            val arrayOfArrows = ArrayList<Int>(listOfArrows)
+            listOfArrows.clear()
+            intent.putIntegerArrayListExtra("listOfArrows", arrayOfArrows)
             startActivity(intent)
         }
     }

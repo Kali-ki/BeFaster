@@ -7,10 +7,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.kjnco.befaster.R
 
-class RestitutionActivity: AppCompatActivity() {
+class RestitutionActivity: AppCompatActivity(), GestureListener {
 
     companion object {
-        private val arrows_restitution = mutableListOf<String>()
         private val arrow_pictures = mutableListOf<Int>()
     }
 
@@ -21,66 +20,31 @@ class RestitutionActivity: AppCompatActivity() {
         arrow_pictures.add(R.drawable.blue_arrow_right)
     }
 
+    private lateinit var gestureDetection: GestureView
+    private lateinit var imageRestitution: ImageView
+    private lateinit var scoreDescription: TextView
+    private lateinit var listOfArrows: ArrayList<Int>
+    private var arrowsRestitution = mutableListOf<String>()
     private var score = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_restitution)
 
-        // Starting counting time
-        val startTime = System.currentTimeMillis()
-
         // Fetching the list of arrows
-        val listOfArrows = intent.getIntegerArrayListExtra("listOfArrows")
+        listOfArrows = intent.getIntegerArrayListExtra("listOfArrows") as ArrayList<Int>
 
         // Layout elements
-        val gestureDetection: GestureView = findViewById<GestureView>(R.id.gesture_view)
-        val score_description: TextView = findViewById<TextView>(R.id.score_descr)
+        scoreDescription = findViewById<TextView>(R.id.score_descr)
         val score_msg: TextView = findViewById<TextView>(R.id.score)
-        val restitution: ImageView = findViewById<ImageView>(R.id.restitution)
+        gestureDetection = findViewById<GestureView>(R.id.gesture_view)
+        imageRestitution = findViewById<ImageView>(R.id.restitution)
 
         // Elements' attributes
-        score_description.text = "Votre score est de : ${score}"
+        scoreDescription.text = "Votre score est de : ${score}"
         score_msg.text = "/${SelfGenerated.NUMBER_OF_ELEMENT}"
-        var numberOfDrawings = gestureDetection.getNumberOfDrawings()
-        var gestureType = gestureDetection.getGestureDirection()
-
-        // Asking the user to reconstitute the sequence
-        while(numberOfDrawings < SelfGenerated.NUMBER_OF_ELEMENT) {
-            gestureType = gestureDetection.getGestureDirection()
-            mappingGestureToPicture(gestureType, restitution)
-            arrows_restitution.add(gestureType.toString())
-            numberOfDrawings = gestureDetection.getNumberOfDrawings()
-            score++
-        }
-
-        // Stopping counting time
-        val endTime = System.currentTimeMillis()
-        val answerTime = endTime - startTime
-
-        // Converting the list of arrows into a list of string
-        val arrows_directions = mutableListOf<String>()
-        if (listOfArrows != null) {
-            for (arrow in listOfArrows) {
-                arrows_directions += when (arrow) {
-                    R.drawable.arrow_up -> "Haut"
-                    R.drawable.arrow_down -> "Bas"
-                    R.drawable.arrow_left -> "Gauche"
-                    R.drawable.arrow_right -> "Droite"
-                    else -> ""
-                }
-            }
-        }
-        // Removing all the NONE values
-        arrows_restitution.removeAll(listOf("NONE"))
-
-        // Comparing the two lists
-        val isAnswerCorrect = arrows_restitution == arrows_directions
-
-        // Passing to the congrats activity
-        val intent = Intent(this, CongratsActivity::class.java)
-        intent.putExtra("isAnswerCorrect", isAnswerCorrect)
-        intent.putExtra("time", answerTime)
-        startActivity(intent)
+        gestureDetection.setNumberOfArrowsToDraw(SelfGenerated.NUMBER_OF_ELEMENT)
+        gestureDetection.setGestureListener(this)
     }
 
     /**
@@ -95,4 +59,48 @@ class RestitutionActivity: AppCompatActivity() {
             else -> {picture.setImageResource(R.drawable.transparent)}
         }
     }
+
+    override fun onGestureDetected(gestureType: GestureType) {
+        mappingGestureToPicture(gestureType, imageRestitution)
+        // Converting the gesture type to a string
+        // Be careful, the first letter of the string must be uppercase
+        val gestureDirection = toTitleCase(gestureType.toString())
+        arrowsRestitution.add(toTitleCase(gestureDirection))
+        score++
+        scoreDescription.text = "Votre score est de : ${score}"
+    }
+
+    /**
+     * Method to convert the first letter of a string to uppercase
+     */
+    private fun toTitleCase(input: String): String {
+        return input.substring(0, 1).uppercase() + input.substring(1).lowercase()
+    }
+    override fun onGestureEnded() {
+       // Converting the list of arrows into a list of string
+        // listOfArrows is the list that is auto-generated
+        val arrowsDirections = mutableListOf<String>()
+        for (arrow in listOfArrows) {
+            arrowsDirections += when (arrow) {
+                R.drawable.arrow_up -> "Haut"
+                R.drawable.arrow_down -> "Bas"
+                R.drawable.arrow_left -> "Gauche"
+                R.drawable.arrow_right -> "Droite"
+                else -> ""
+            }
+        }
+
+        // Comparing the two lists
+        val isAnswerCorrect = arrowsRestitution == arrowsDirections
+
+        // Getting the answer time
+        val answerTime = gestureDetection.getAnswerTime()
+
+        // Passing to the congrats activity
+        val intent = Intent(this, CongratsActivity::class.java)
+        intent.putExtra("isAnswerCorrect", isAnswerCorrect)
+        intent.putExtra("answerTime", answerTime)
+        startActivity(intent)
+    }
+
 }

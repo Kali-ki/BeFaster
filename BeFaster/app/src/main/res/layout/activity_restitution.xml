@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".self_generated_suite.RestitutionFragment">
+    android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/instruction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center_horizontal"
         android:text="@string/consgines_self_generated_fr"
+        android:textColor="@color/black"
         android:textSize="24sp"
-        android:textStyle="bold"
-        android:id="@+id/instruction"/>
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,9 +28,10 @@
 
             <TextView
                 android:id="@+id/score_descr"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/score_fr"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -39,9 +39,9 @@
                 android:id="@+id/score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/primary_1"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/primary_1"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
 

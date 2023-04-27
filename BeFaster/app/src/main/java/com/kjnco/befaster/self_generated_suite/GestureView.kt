@@ -6,9 +6,12 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
+import android.os.Handler
+import android.os.Looper
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import com.kjnco.befaster.R
 
 enum class GestureType {
     HAUT,
@@ -18,19 +21,35 @@ enum class GestureType {
     NONE
 }
 
+interface GestureListener {
+    fun onGestureDetected(gestureType: GestureType)
+    fun onGestureEnded()
+}
+
 class GestureView (context: Context, attrs: AttributeSet?): View(context, attrs) {
+
+    // Getting the attributes
+    private val typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.GestureView, 0, 0)
+
+    // Retrieving the number of arrows to draw
+    private var arrowsToDraw = typedArray.getInteger(R.styleable.GestureView_arrowsToDraw, 1)
 
     private var lastX = 0f
     private var lastY = 0F
-    private var numberOfDrawings = 0
     private var gestureDirection = GestureType.NONE
     private var gesturePath = Path()
     private val gesturePaint = Paint().apply {
         color = Color.BLACK
-        strokeWidth = 5f
+        strokeWidth = 10f
         style = Paint.Style.STROKE
         isAntiAlias = true
     }
+    private var numberOfArrows = 0
+    private var startTime = 0L
+    private var endTime = 0L
+
+    // Gesture listener
+    private var gestureListener: GestureListener? = null
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -40,6 +59,9 @@ class GestureView (context: Context, attrs: AttributeSet?): View(context, attrs)
                 lastX = event.x
                 lastY = event.y
                 gesturePath.moveTo(lastX, lastY)
+                if (numberOfArrows == 0) {
+                    startTime = System.currentTimeMillis()
+                }
                 return true
             }
 
@@ -53,10 +75,22 @@ class GestureView (context: Context, attrs: AttributeSet?): View(context, attrs)
             }
 
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                numberOfDrawings++
                 gesturePath.reset()
+                numberOfArrows++
+                if (numberOfArrows <= arrowsToDraw) {
+                    if (gestureDirection != GestureType.NONE) {
+                        gestureListener?.onGestureDetected(gestureDirection)
+                        invalidate()
+                    }
+                    if (numberOfArrows >= arrowsToDraw) {
+                        endTime = System.currentTimeMillis()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            gestureListener?.onGestureEnded()
+                            invalidate()
+                        }, 1000)
+                    }
+                }
                 gestureDirection = GestureType.NONE
-                invalidate()
                 return true
             }
         }
@@ -72,20 +106,32 @@ class GestureView (context: Context, attrs: AttributeSet?): View(context, attrs)
         val deltaX = currentX - lastX
         val deltaY = currentY - lastY
         gestureDirection = if(kotlin.math.abs(deltaX) > kotlin.math.abs(deltaY)) {
-            if (deltaX > 0) GestureType.DROITE else GestureType.GAUCHE
+            if (deltaX > 0){
+                GestureType.DROITE
+            } else{
+                GestureType.GAUCHE
+            }
         }else {
-            if (deltaY > 0) GestureType.BAS else GestureType.HAUT
+            if (deltaY > 0) {
+                GestureType.BAS
+            } else {
+                GestureType.HAUT
+            }
         }
         lastX = currentX
         lastY = currentY
     }
 
-    fun getGestureDirection(): GestureType {
-        return gestureDirection
+    fun setNumberOfArrowsToDraw(arrowsToDraw: Int) {
+        this.arrowsToDraw = arrowsToDraw
     }
 
-    fun getNumberOfDrawings(): Int {
-        return numberOfDrawings
+    fun getAnswerTime(): Long {
+        return endTime - startTime
+    }
+
+    fun setGestureListener(gestureListener: GestureListener) {
+        this.gestureListener = gestureListener
     }
 
 }
