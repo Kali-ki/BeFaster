@@ -41,13 +41,18 @@
         <activity
             android:name=".wifiP2p.WifiDirectActivity"
             android:exported="false" />
+        <activity
+            android:name=".self_generated_suite.SelfGenerated"
+            android:exported="false" />
+        <activity
+            android:name=".self_generated_suite.CongratsActivity"
+            android:exported="false" />
+        <activity android:name=".self_generated_suite.RestitutionActivity"/>
         <activity android:name=".main_menu.TrainingActivity"/>
         <activity android:name=".main_menu.MultiplayerActivity"/>
         <activity android:name=".main_menu.SettingsActivity"/>
         <activity android:name=".quiz.QuizMenu"/>
         <activity android:name=".quiz.Quiz"/>
-        <activity android:name=".quiz.RightAnswer"/>
-        <activity android:name=".quiz.WrongAnswer"/>
 
         <meta-data
             android:name="preloaded_fonts"
