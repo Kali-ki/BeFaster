@@ -68,15 +68,15 @@ class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
         manager = getSystemService(Context.WIFI_P2P_SERVICE) as WifiP2pManager
         channel = manager.initialize(this, mainLooper, null)
 
+        // Disconnect peers
+        disconnectPeers()
+
         // Stop the communication thread if it is running
         if(WifiHost.isRunning || WifiClient.isRunning){
             WifiCommunication.getInstance().stopThread()
             WifiHost.isRunning = false
             WifiClient.isRunning = false
         }
-
-        // Disconnect peers
-        disconnectPeers()
 
         // Initialize the list of devices and the adapter associated
         listDevice = ArrayList()
