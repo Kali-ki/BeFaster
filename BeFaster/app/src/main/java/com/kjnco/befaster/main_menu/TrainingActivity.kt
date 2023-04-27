@@ -4,8 +4,8 @@ import android.content.Intent
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.kjnco.befaster.R
 import com.kjnco.befaster.MainActivity
+import com.kjnco.befaster.R
 import com.kjnco.befaster.quiz.QuizMenu
 import com.kjnco.befaster.self_generated_suite.SelfGenerated
 
