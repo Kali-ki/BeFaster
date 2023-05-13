@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center_horizontal"
-        android:text="@string/consgines_self_generated_fr"
+        android:text="@string/consignes_self_generated_fr"
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold" />
