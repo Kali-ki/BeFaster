@@ -9,7 +9,46 @@
     <string name="training_description_3">
         sans adversaires.
     </string>
-    <string name="quiz">
-        Fast Quiz
+    <string name="gen_quiz">
+        General culture quiz
+    </string>
+    <string name="gen_quiz_fr">
+        Quiz de culture générale
+    </string>
+    <string name="word_quiz">
+        Word quiz
+    </string>
+    <string name="word_quiz_fr">
+        Quiz de mots
+    </string>
+    <string name="fill_in_the_rest">
+        Fill in the rest
+    </string>
+    <string name="fill_in_the_rest_fr">
+        Compléter la suite
+    </string>
+    <string name="self_generated">
+        Self-generated memorization
+    </string>
+    <string name="self_generated_fr">
+        Mémorisation auto-généré
+    </string>
+    <string name="suite_to_generate">
+        Memorization to create
+    </string>
+    <string name="suite_to_generate_fr">
+        Mémorisation à créer
+    </string>
+    <string name="labyrinth">
+        Labyrinth
+    </string>
+    <string name="labyrinth_fr">
+        Labyrinthe
+    </string>
+    <string name="go_back">
+        Go back
+    </string>
+    <string name="go_back_fr">
+        Retour
     </string>
 </resources>

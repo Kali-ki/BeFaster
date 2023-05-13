@@ -13,7 +13,8 @@
         android:layout_marginTop="150dp"
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
-        style="@style/EM"/>
+        style="@style/EM"
+        android:text="@string/training_description_1"/>
 
     <TextView
         android:id="@+id/description_2"
@@ -22,7 +23,8 @@
         android:layout_marginTop="200dp"
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
-        style="@style/RegularBig"/>
+        style="@style/RegularBig"
+        android:text="@string/training_description_2"/>
 
     <TextView
         android:id="@+id/description_3"
@@ -31,36 +33,103 @@
         android:layout_marginTop="250dp"
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
-        style="@style/EM"/>
+        style="@style/EM"
+        android:text="@string/training_description_3"/>
 
-    <Button
-        android:id="@+id/fast_quiz"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="400dp"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/rounded_corners"
-        android:textColor="@color/white"/>
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_width="match_parent"
+        android:layout_height="332dp"
+        android:layout_below="@id/description_3"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/self_generated"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/fast_quiz"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/rounded_corners"
-        android:padding="10dp"
-        android:textColor="@color/white"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/gen_culture_quiz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_corners"
+                android:textColor="@color/white"
+                android:text="@string/gen_quiz_fr"/>
+
+            <Button
+                android:id="@+id/word_quiz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_corners"
+                android:textColor="@color/white"
+                android:text="@string/word_quiz_fr"/>
+
+            <Button
+                android:id="@+id/fill_the_rest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_corners"
+                android:textColor="@color/white"
+                android:text="@string/fill_in_the_rest_fr"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/self_generated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_corners"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:text="@string/self_generated_fr"/>
+
+            <Button
+                android:id="@+id/suite_to_generate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_corners"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:text="@string/suite_to_generate_fr"/>
+
+            <Button
+                android:id="@+id/labyrinth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_corners"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:text="@string/labyrinth_fr"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/self_generated"
+        android:layout_below="@+id/buttons"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:background="@drawable/rounded_corners"
-        android:textColor="@color/anagolous_2"/>
+        android:textColor="@color/anagolous_2"
+        android:text="@string/go_back_fr"/>
 
 </RelativeLayout>

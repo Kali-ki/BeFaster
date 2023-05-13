@@ -1,20 +1,21 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    # APP NAME
+    <!-- APP NAME -->
     <string name="app_name">BeFaster</string>
 
-    # MAIN ACTIVITY
+    <!-- MAIN ACTIVITY -->
 
     <string name="activity_main_multiplayer">Multiplayer</string>
 
-    # WIFI P2P ACTIVITY
+    <!-- WIFI P2P ACTIVITY -->
 
-    # The values of UI elements
+    <!-- The values of UI elements -->
     <string name="activity_wifiDirect_text_peers">Peers available :</string>
     <string name="activity_wifiDirect_button_discover">Discover Peers</string>
     <string name="activity_wifiDirect_button_disconnect">Disconnect</string>
 
-    # The values of the status
+    <!-- The values of the status -->
+
     <string name="status">Status : %1$s</string>
     <string name="host">Host</string>
     <string name="client">Client</string>
@@ -44,6 +45,14 @@
         <item name="android:textColor">#000000</item>
     </style>
 
+    <style name="RegularBlue">
+        <item name="android:fontFamily">"sans-serif-medium"</item>
+        <item name="fontFamily">"sans-serif-medium"</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/primary_1</item>
+    </style>
+
     <style name="Question">
         <item name="android:fontFamily">"sans-serif-medium"</item>
         <item name="fontFamily">"sans-serif-medium"</item>
@@ -62,8 +71,7 @@
 
     <string name="question_computation">Le score est en cours de calcul…</string>
 
-    <string name="self_generated_fr">Mémorisation auto-généré</string>
-    <string name="consgines_self_generated_fr">À vous de jouer, restituez la séquence de flèches visionnée.</string>
+    <string name="consignes_self_generated_fr">À vous de jouer, restituez la séquence de flèches visionnée.</string>
     <string name="confirm_drawing">Confirm the drawing</string>
     <string name="confirm_drawing_fr">Confirmer le dessin</string>
     <string name="confirm_drawing_descr">Is the drawing what you expeceted?</string>
@@ -75,4 +83,18 @@
     <string name="score">Your score : </string>
     <string name="score_fr">Votre score est de : </string>
     <string name="self_gen_img_descr">Correspond image of the drawing</string>
+    <string name="self_gen_rule_1_1">You will see</string>
+    <string name="self_gen_rule_1_2">suites of</string>
+    <string name="self_gen_rule_1_3">arrows,</string>
+    <string name="self_gen_rule_2">You have to reconstitute it.</string>
+    <string name="self_gen_rule_1_1_fr">Vous verrez</string>
+    <string name="self_gen_rule_1_2_fr">suites de</string>
+    <string name="self_gen_rule_1_3_fr">flèches,</string>
+    <string name="self_gen_rule_2_fr">Vous devrez les reconstituer.</string>
+    <string name="suite_to_generate_rule_1">Firstly, you will see a suite of arrows,</string>
+    <string name="suite_to_generate_rule_2">Secondly you have to reconstitute it,</string>
+    <string name="suite_to_generate_rule_3">Finally, if you succeed, you can add an extra arrow in one of the four direction.</string>
+    <string name="suite_to_generate_rule_1_fr">Premièrement, vous verrez une suite de flèches,</string>
+    <string name="suite_to_generate_rule_2_fr">Deuxièmement, vous devrez la reconstituer,</string>
+    <string name="suite_to_generate_rule_3_fr">Enfin, si vous réussissez, vous pourrez ajouter une flèche supplémentaire dans l\'une des quatre directions.</string>
 </resources>
