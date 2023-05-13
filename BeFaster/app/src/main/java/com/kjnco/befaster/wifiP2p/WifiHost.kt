@@ -41,16 +41,6 @@ class WifiHost private constructor(
         var isRunning : Boolean = false
 
         /**
-         * Get the instance of the WifiHost
-         */
-        fun getInstance(wifiCommunication: WifiCommunication) : WifiHost {
-            if (instance == null) {
-                instance = WifiHost(wifiCommunication)
-            }
-            return instance!!
-        }
-
-        /**
          * Do not use it, use getInstance instead
          */
         internal fun getNewInstance(wifiCommunication: WifiCommunication) : WifiHost {

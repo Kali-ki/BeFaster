@@ -45,16 +45,6 @@ class WifiClient private constructor(
         var isRunning : Boolean = false
 
         /**
-         * Get the instance of the WifiClient
-         */
-        fun getInstance(hostAddress: InetAddress, wifiCommunication: WifiCommunication) : WifiClient {
-            if (instance == null) {
-                instance = WifiClient(hostAddress, wifiCommunication)
-            }
-            return instance!!
-        }
-
-        /**
          * Do not use it, use getInstance instead
          */
         internal fun getNewInstance(hostAddress: InetAddress, wifiCommunication: WifiCommunication) : WifiClient {
