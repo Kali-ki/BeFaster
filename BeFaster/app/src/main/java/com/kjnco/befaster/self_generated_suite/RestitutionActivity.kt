@@ -1,7 +1,9 @@
 package com.kjnco.befaster.self_generated_suite
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -26,6 +28,7 @@ class RestitutionActivity: AppCompatActivity(), GestureListener {
     private lateinit var listOfArrows: ArrayList<Int>
     private var arrowsRestitution = mutableListOf<String>()
     private var score = 0
+    private var startTime = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,13 +64,58 @@ class RestitutionActivity: AppCompatActivity(), GestureListener {
     }
 
     override fun onGestureDetected(gestureType: GestureType) {
+        // Starting the timer
+        if (gestureDetection.getNumberOfArrows() == 0) {
+            startTime = System.currentTimeMillis()
+        }
         mappingGestureToPicture(gestureType, imageRestitution)
-        // Converting the gesture type to a string
-        // Be careful, the first letter of the string must be uppercase
-        val gestureDirection = toTitleCase(gestureType.toString())
-        arrowsRestitution.add(toTitleCase(gestureDirection))
-        score++
-        scoreDescription.text = "Votre score est de : ${score}"
+        // Adding an Alert Dialog to show the gesture type
+        //     and to let the user confirm if the gesture is correct
+
+        // Creating an alert dialog to confirm the gesture
+        val builder = createAlertDialogBuilder(gestureType)
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    /**
+     * Method to create a builder for the alert dialog
+     *      to confirm the gesture
+     *      yes: add the gesture to the list of gestures
+     *      no: clear the Gesture View
+     */
+    private fun createAlertDialogBuilder(gestureType: GestureType): AlertDialog.Builder {
+        val builder = AlertDialog.Builder(this)
+        val customLayout = LayoutInflater.from(this).inflate(
+            R.layout.alert_dialog_drawing,
+            null
+        )
+        builder.setView(customLayout)
+        val imageView = customLayout.findViewById<ImageView>(R.id.alert_dialog_iv)
+        mappingGestureToPicture(gestureType, imageView)
+        builder.setTitle(R.string.confirm_drawing)
+        builder.setMessage(R.string.confirm_drawing_descr_fr)
+        builder.setPositiveButton(R.string.yes_fr) { _, _ ->
+
+            // Converting the gesture type to a string
+            // Be careful, the first letter of the string must be uppercase
+            gestureDetection.incrementNumberOfArrows()
+            val gestureDirection = toTitleCase(gestureType.toString())
+            arrowsRestitution.add(toTitleCase(gestureDirection))
+            score++
+            scoreDescription.text = "Votre score est de : ${score}"
+            imageRestitution.setImageResource(R.drawable.transparent)
+
+            //Executes onGestureEnded when all arrows are drawn
+            if (gestureDetection.getNumberOfArrows() >= gestureDetection.getNumberOfArrowsToDraw()) {
+                onGestureEnded()
+            }
+        }
+
+        builder.setNegativeButton(R.string.confirm_drawing_cancel_fr) { _, _ ->
+            gestureDetection.clear()
+        }
+        return builder
     }
 
     /**
@@ -76,8 +124,9 @@ class RestitutionActivity: AppCompatActivity(), GestureListener {
     private fun toTitleCase(input: String): String {
         return input.substring(0, 1).uppercase() + input.substring(1).lowercase()
     }
-    override fun onGestureEnded() {
-       // Converting the list of arrows into a list of string
+
+    private fun onGestureEnded() {
+        // Converting the list of arrows into a list of string
         // listOfArrows is the list that is auto-generated
         val arrowsDirections = mutableListOf<String>()
         for (arrow in listOfArrows) {
@@ -94,7 +143,7 @@ class RestitutionActivity: AppCompatActivity(), GestureListener {
         val isAnswerCorrect = arrowsRestitution == arrowsDirections
 
         // Getting the answer time
-        val answerTime = gestureDetection.getAnswerTime()
+        val answerTime = System.currentTimeMillis() - startTime
 
         // Passing to the congrats activity
         val intent = Intent(this, CongratsActivity::class.java)

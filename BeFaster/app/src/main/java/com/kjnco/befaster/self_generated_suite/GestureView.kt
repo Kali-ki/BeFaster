@@ -6,8 +6,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
-import android.os.Handler
-import android.os.Looper
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -23,7 +21,6 @@ enum class GestureType {
 
 interface GestureListener {
     fun onGestureDetected(gestureType: GestureType)
-    fun onGestureEnded()
 }
 
 class GestureView (context: Context, attrs: AttributeSet?): View(context, attrs) {
@@ -45,8 +42,6 @@ class GestureView (context: Context, attrs: AttributeSet?): View(context, attrs)
         isAntiAlias = true
     }
     private var numberOfArrows = 0
-    private var startTime = 0L
-    private var endTime = 0L
 
     // Gesture listener
     private var gestureListener: GestureListener? = null
@@ -59,9 +54,6 @@ class GestureView (context: Context, attrs: AttributeSet?): View(context, attrs)
                 lastX = event.x
                 lastY = event.y
                 gesturePath.moveTo(lastX, lastY)
-                if (numberOfArrows == 0) {
-                    startTime = System.currentTimeMillis()
-                }
                 return true
             }
 
@@ -76,18 +68,12 @@ class GestureView (context: Context, attrs: AttributeSet?): View(context, attrs)
 
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                 gesturePath.reset()
-                numberOfArrows++
                 if (numberOfArrows <= arrowsToDraw) {
                     if (gestureDirection != GestureType.NONE) {
-                        gestureListener?.onGestureDetected(gestureDirection)
+                        synchronized(this) {
+                            gestureListener?.onGestureDetected(gestureDirection)
+                        }
                         invalidate()
-                    }
-                    if (numberOfArrows >= arrowsToDraw) {
-                        endTime = System.currentTimeMillis()
-                        Handler(Looper.getMainLooper()).postDelayed({
-                            gestureListener?.onGestureEnded()
-                            invalidate()
-                        }, 1000)
                     }
                 }
                 gestureDirection = GestureType.NONE
@@ -122,12 +108,29 @@ class GestureView (context: Context, attrs: AttributeSet?): View(context, attrs)
         lastY = currentY
     }
 
+    fun clear() {
+        gesturePath.reset()
+        invalidate()
+    }
+
+    fun getNumberOfArrows(): Int {
+        return numberOfArrows
+    }
+
+    fun setNumberOfArrows(arrows: Int) {
+        this.numberOfArrows = arrows
+    }
+
+    fun incrementNumberOfArrows() {
+        this.numberOfArrows++
+    }
+
     fun setNumberOfArrowsToDraw(arrowsToDraw: Int) {
         this.arrowsToDraw = arrowsToDraw
     }
 
-    fun getAnswerTime(): Long {
-        return endTime - startTime
+    fun getNumberOfArrowsToDraw(): Int {
+        return this.arrowsToDraw
     }
 
     fun setGestureListener(gestureListener: GestureListener) {

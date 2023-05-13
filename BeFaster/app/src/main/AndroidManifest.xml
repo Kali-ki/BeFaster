@@ -28,7 +28,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BeFaster"
         tools:targetApi="31">
-
+        <activity
+            android:name=".suite_to_generate.SuiteToGenerate"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -38,7 +40,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".wifiP2p.WifiDirectActivity"
             android:exported="false" />
@@ -48,12 +49,12 @@
         <activity
             android:name=".self_generated_suite.CongratsActivity"
             android:exported="false" />
-        <activity android:name=".self_generated_suite.RestitutionActivity"/>
-        <activity android:name=".main_menu.TrainingActivity"/>
-        <activity android:name=".main_menu.MultiplayerActivity"/>
-        <activity android:name=".main_menu.SettingsActivity"/>
-        <activity android:name=".quiz.QuizMenu"/>
-        <activity android:name=".quiz.Quiz"/>
+        <activity android:name=".self_generated_suite.RestitutionActivity" />
+        <activity android:name=".main_menu.TrainingActivity" />
+        <activity android:name=".main_menu.MultiplayerActivity" />
+        <activity android:name=".main_menu.SettingsActivity" />
+        <activity android:name=".quiz.QuizMenu" />
+        <activity android:name=".quiz.Quiz" />
 
         <meta-data
             android:name="preloaded_fonts"
