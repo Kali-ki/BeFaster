@@ -15,9 +15,6 @@ abstract class WifiHostClient (
     private var wifiCommunication: WifiCommunication
     ) : Thread() {
 
-    // Port to use for the communication
-    protected var port : Int = 4242
-
     // Input and output streams
     protected lateinit var inputStream : InputStream
     protected lateinit var outputStream: OutputStream
@@ -94,6 +91,18 @@ abstract class WifiHostClient (
 
         // Start the looper
         Looper.loop()
+
+    }
+
+    companion object {
+
+        // Port to use for the communication
+        private var port : Int = 4242
+
+        fun getPort() : Int {
+            port += 1
+            return port
+        }
 
     }
 

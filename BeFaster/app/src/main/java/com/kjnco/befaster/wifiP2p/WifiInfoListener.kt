@@ -19,7 +19,7 @@ class WifiInfoListener(
         if((wifiP2pInfo?.groupFormed == true) && wifiP2pInfo.isGroupOwner){ // if host
             wifiActivity.isHost = true
             val wifiCommunication : WifiCommunication = WifiCommunication.getInstance()
-            val wifiHost = WifiHost.getInstance(wifiCommunication)
+            val wifiHost = WifiHost.getNewInstance(wifiCommunication)
             wifiCommunication.wifiServerClient = wifiHost
             wifiHost.start()
             WifiHost.isRunning = true
@@ -27,7 +27,7 @@ class WifiInfoListener(
         }else if(wifiP2pInfo?.groupFormed == true){ // if client
             wifiActivity.isHost = false
             val wifiCommunication : WifiCommunication = WifiCommunication.getInstance()
-            val wifiClient = WifiClient.getInstance(wifiP2pInfo.groupOwnerAddress, wifiCommunication)
+            val wifiClient = WifiClient.getNewInstance(wifiP2pInfo.groupOwnerAddress, wifiCommunication)
             wifiCommunication.wifiServerClient = wifiClient
             wifiClient.start()
             WifiClient.isRunning = true

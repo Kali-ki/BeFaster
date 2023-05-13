@@ -52,6 +52,7 @@ class WifiCommunication private constructor() {
      */
     fun stopThread(){
         wifiServerClient.interrupt()
+        wifiServerClient.join()
     }
 
     // Companion object to implement a singleton

@@ -19,7 +19,7 @@ class WifiHost private constructor(
      * This function is used to initialize the socket and listen for a client socket
      */
     override fun initializeListen() {
-        serverSocket = ServerSocket(port)
+        serverSocket = ServerSocket(getPort())
         val socket : Socket = serverSocket.accept()
         inputStream = socket.getInputStream()
         outputStream = socket.getOutputStream()
@@ -29,6 +29,8 @@ class WifiHost private constructor(
      * This function is used to close the socket
      */
     override fun endListen() {
+        inputStream.close()
+        outputStream.close()
         serverSocket.close()
     }
 
@@ -38,12 +40,24 @@ class WifiHost private constructor(
 
         var isRunning : Boolean = false
 
+        /**
+         * Get the instance of the WifiHost
+         */
         fun getInstance(wifiCommunication: WifiCommunication) : WifiHost {
             if (instance == null) {
                 instance = WifiHost(wifiCommunication)
             }
             return instance!!
         }
+
+        /**
+         * Do not use it, use getInstance instead
+         */
+        internal fun getNewInstance(wifiCommunication: WifiCommunication) : WifiHost {
+            instance = WifiHost(wifiCommunication)
+            return instance as WifiHost
+        }
+
     }
 
 }
