@@ -1,9 +1,9 @@
 package com.kjnco.befaster
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.kjnco.befaster.wifiP2p.WifiCommunication
 import kotlinx.coroutines.*
 
