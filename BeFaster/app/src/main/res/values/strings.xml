@@ -64,6 +64,14 @@
 
     <string name="self_generated_fr">Mémorisation auto-généré</string>
     <string name="consgines_self_generated_fr">À vous de jouer, restituez la séquence de flèches visionnée.</string>
+    <string name="confirm_drawing">Confirm the drawing</string>
+    <string name="confirm_drawing_fr">Confirmer le dessin</string>
+    <string name="confirm_drawing_descr">Is the drawing what you expeceted?</string>
+    <string name="confirm_drawing_descr_fr">Le dessin correspond-il à ce que vous attendiez?</string>
+    <string name="yes">Yes</string>
+    <string name="yes_fr">Oui</string>
+    <string name="confirm_drawing_cancel">Redraw it</string>
+    <string name="confirm_drawing_cancel_fr">Redessiner</string>
     <string name="score">Your score : </string>
     <string name="score_fr">Votre score est de : </string>
     <string name="self_gen_img_descr">Correspond image of the drawing</string>
