@@ -53,6 +53,7 @@
         <activity android:name=".main_menu.TrainingActivity" />
         <activity android:name=".main_menu.MultiplayerActivity" />
         <activity android:name=".main_menu.SettingsActivity" />
+        <activity android:name=".SelectGameActivity" />
         <activity android:name=".quiz.QuizMenu" />
         <activity android:name=".quiz.Quiz" />
 
