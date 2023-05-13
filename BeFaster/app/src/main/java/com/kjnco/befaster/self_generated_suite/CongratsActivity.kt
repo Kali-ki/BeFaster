@@ -42,6 +42,7 @@ class CongratsActivity : AppCompatActivity() {
             }, 3000)
         }else {
             SelfGenerated.currentIteration = 0
+            SelfGenerated.currentSequence = 0
             Handler(Looper.getMainLooper()).postDelayed({
                 val intent = Intent(this, TrainingActivity::class.java)
                 startActivity(intent)
