@@ -1,5 +1,6 @@
 package com.kjnco.befaster.wifiP2p
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -67,6 +68,8 @@ class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
         progressBar = findViewById(R.id.progressBar_discovery)
         progressBar.visibility = View.GONE
         listView = findViewById(R.id.peers_listView)
+
+        this.progressBar.visibility = View.VISIBLE
 
         // Initialize manager and channel
         manager = getSystemService(Context.WIFI_P2P_SERVICE) as WifiP2pManager
@@ -156,10 +159,8 @@ class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
     /**
      * Discover peers
      */
+    @SuppressLint("MissingPermission")
     private fun discoverPeers() {
-
-        // Show the progress bar
-        this.progressBar.visibility = View.VISIBLE
 
         manager.discoverPeers(channel, object : WifiP2pManager.ActionListener {
 
@@ -204,6 +205,7 @@ class WifiDirectActivity : AppCompatActivity(), WifiP2pManager.ChannelListener {
 
         // --- ArrayAdapter method ----------------------------------------------------------------
 
+        @SuppressLint("MissingPermission")
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 
             // Get device

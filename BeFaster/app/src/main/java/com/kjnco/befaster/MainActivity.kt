@@ -5,9 +5,11 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.net.wifi.WifiManager
+import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.kjnco.befaster.main_menu.SettingsActivity
@@ -46,6 +48,14 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "BeFaster need location to run the multiplayer mode", Toast.LENGTH_LONG).show()
                 requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 1)
                 return@setOnClickListener
+            }
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if(!isNearbyWifiDevicesGranted()) {
+                    Toast.makeText(this, "BeFaster need location to run the multiplayer mode", Toast.LENGTH_LONG).show()
+                    requestPermissions(arrayOf(android.Manifest.permission.NEARBY_WIFI_DEVICES), 1)
+                    return@setOnClickListener
+                }
             }
 
             startActivity(Intent(this, WifiDirectActivity::class.java))
@@ -98,6 +108,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun isLocationPermissionGranted() : Boolean {
         return ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun isNearbyWifiDevicesGranted() : Boolean {
+        return ContextCompat.checkSelfPermission(this, android.Manifest.permission.NEARBY_WIFI_DEVICES) == PackageManager.PERMISSION_GRANTED
     }
 
 }
