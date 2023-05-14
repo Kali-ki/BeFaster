@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
-import android.media.MediaPlayer
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Bundle
@@ -24,9 +23,6 @@ class MainActivity : AppCompatActivity() {
 
     // UI element
     private lateinit var multiplayerButton: Button
-
-    // Media player
-    private lateinit var mediaPlayer: MediaPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,10 +80,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
         }
-
-        // Play the victory sound
-        mediaPlayer = MediaPlayer.create(this, R.raw.victory)
-        mediaPlayer.start()
 
     }
 

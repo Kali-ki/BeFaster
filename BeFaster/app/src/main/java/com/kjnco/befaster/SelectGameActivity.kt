@@ -1,9 +1,11 @@
 package com.kjnco.befaster
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.kjnco.befaster.movingGame.MovingGameActivity
 import com.kjnco.befaster.wifiP2p.WifiCommunication
 import kotlinx.coroutines.*
 
@@ -34,6 +36,12 @@ class SelectGameActivity : AppCompatActivity() {
             isHost = bundle.getBoolean("isHost")
         }
 
+    }
+
+    @OptIn(DelicateCoroutinesApi::class)
+    override fun onResume() {
+        super.onResume()
+
         // Get game chosen by host
         if(isHost){
             setContentView(R.layout.activity_select_game_host)
@@ -42,18 +50,23 @@ class SelectGameActivity : AppCompatActivity() {
             statusTextView.text = "Choose a game:"
 
             findViewById<Button>(R.id.buttonGame1).setOnClickListener {
-                wifiCommunication.sendMsg("Game1")
+                wifiCommunication.sendMsg("1")
+
+                val intent = Intent(this, MovingGameActivity::class.java)
+                intent.putExtra("isMultiplayer", true)
+                intent.putExtra("isHost", isHost)
+                startActivity(intent)
             }
 
             findViewById<Button>(R.id.buttonGame2).setOnClickListener {
-                wifiCommunication.sendMsg("Game2")
+                wifiCommunication.sendMsg("2")
             }
 
             findViewById<Button>(R.id.buttonGame3).setOnClickListener {
-                wifiCommunication.sendMsg("Game3")
+                wifiCommunication.sendMsg("3")
             }
 
-        // Wait for client to choose game
+            // Wait for client to choose game
         }else{
             setContentView(R.layout.activity_select_game_client)
 
@@ -65,6 +78,13 @@ class SelectGameActivity : AppCompatActivity() {
             GlobalScope.launch(Dispatchers.Main){
                 val res : String? = wifiCommunication.waitForMessageSuspend()
                 findViewById<TextView>(R.id.textView_game_chosen).text = res
+
+                if(res == "1"){
+                    val intent = Intent(this@SelectGameActivity, MovingGameActivity::class.java)
+                    intent.putExtra("isMultiplayer", true)
+                    intent.putExtra("isHost", isHost)
+                    startActivity(intent)
+                }
             }
 
         }

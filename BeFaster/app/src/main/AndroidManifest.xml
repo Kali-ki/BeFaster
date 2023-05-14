@@ -29,6 +29,9 @@
         android:theme="@style/Theme.BeFaster"
         tools:targetApi="31">
         <activity
+            android:name=".movingGame.MovingGameActivity"
+            android:exported="false" />
+        <activity
             android:name=".suite_to_generate.SuiteToGenerate"
             android:exported="false" />
         <activity

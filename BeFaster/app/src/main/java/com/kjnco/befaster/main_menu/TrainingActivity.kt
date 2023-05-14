@@ -2,10 +2,10 @@ package com.kjnco.befaster.main_menu
 
 import android.content.Intent
 import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.kjnco.befaster.MainActivity
 import com.kjnco.befaster.R
+import com.kjnco.befaster.movingGame.MovingGameActivity
 import com.kjnco.befaster.quiz.QuizMenu
 import com.kjnco.befaster.self_generated_suite.SelfGenerated
 
@@ -35,7 +35,7 @@ class TrainingActivity: AppCompatActivity() {
         fillTheRestButtonEvent()
         selfGeneratedButtonEvent()
         suiteToGenerateButtonEvent()
-        labyrinthButtonEvent()
+        movingGameButtonEvent()
         cancelButtonEvent()
     }
 
@@ -92,9 +92,9 @@ class TrainingActivity: AppCompatActivity() {
     /**
      * Method to add an event to the labyrinth button
      */
-    private fun labyrinthButtonEvent() {
+    private fun movingGameButtonEvent() {
         labyrinth.setOnClickListener {
-            val intent = Intent(this, QuizMenu::class.java)
+            val intent = Intent(this, MovingGameActivity::class.java)
             startActivity(intent)
         }
     }
