@@ -8,6 +8,7 @@ import com.kjnco.befaster.R
 import com.kjnco.befaster.movingGame.MovingGameActivity
 import com.kjnco.befaster.quiz.QuizMenu
 import com.kjnco.befaster.self_generated_suite.SelfGenerated
+import com.kjnco.befaster.suite_to_generate.SuiteToGenerate
 
 /**
  * Class that aims to offer a mode in solo for training
@@ -84,7 +85,7 @@ class TrainingActivity: AppCompatActivity() {
      */
     private fun suiteToGenerateButtonEvent() {
         suiteToGenerate.setOnClickListener {
-            val intent = Intent(this, QuizMenu::class.java)
+            val intent = Intent(this, SuiteToGenerate::class.java)
             startActivity(intent)
         }
     }

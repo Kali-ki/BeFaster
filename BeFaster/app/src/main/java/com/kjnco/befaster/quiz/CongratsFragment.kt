@@ -17,11 +17,11 @@ class CongratsFragment: Fragment() {
         private const val ARG_IS_CORRECT = "isAnswerCorrect"
         private const val ARG_ANSWER_TIME = "answerTime"
 
-        fun newInstance(isAnswerCorrect: Boolean, answerTime: Long): CongratsFragment {
+        fun newInstance(isAnswerCorrect: Boolean, answerTime: Double): CongratsFragment {
             val fragment = CongratsFragment()
             val args = Bundle()
             args.putBoolean(ARG_IS_CORRECT, isAnswerCorrect)
-            args.putLong(ARG_ANSWER_TIME, answerTime)
+            args.putDouble(ARG_ANSWER_TIME, answerTime)
             fragment.arguments = args
             return fragment
         }
@@ -35,7 +35,7 @@ class CongratsFragment: Fragment() {
 
         // Arguments
         val isCorrect = arguments?.getBoolean("isAnswerCorrect")!!
-        val answerTime = arguments?.getLong("answerTime")!!
+        val answerTime = arguments?.getDouble("answerTime")!!
 
         // View
         val view: View = inflater.inflate(R.layout.activity_congrats, container, false)
