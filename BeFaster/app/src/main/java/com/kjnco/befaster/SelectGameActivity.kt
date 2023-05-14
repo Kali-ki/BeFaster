@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.kjnco.befaster.movingGame.MovingGameActivity
+import com.kjnco.befaster.timingGame.TimingGameActivity
 import com.kjnco.befaster.wifiP2p.WifiCommunication
 import kotlinx.coroutines.*
 
@@ -60,6 +61,11 @@ class SelectGameActivity : AppCompatActivity() {
 
             findViewById<Button>(R.id.buttonGame2).setOnClickListener {
                 wifiCommunication.sendMsg("2")
+
+                val intent = Intent(this, TimingGameActivity::class.java)
+                intent.putExtra("isMultiplayer", true)
+                intent.putExtra("isHost", isHost)
+                startActivity(intent)
             }
 
             findViewById<Button>(R.id.buttonGame3).setOnClickListener {
@@ -76,11 +82,16 @@ class SelectGameActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.textView_game_chosen).text = gameChosen
 
             GlobalScope.launch(Dispatchers.Main){
-                val res : String? = wifiCommunication.waitForMessageSuspend()
+                val res : String? = wifiCommunication.waitForMessageSuspendWithoutTimeout()
                 findViewById<TextView>(R.id.textView_game_chosen).text = res
 
                 if(res == "1"){
                     val intent = Intent(this@SelectGameActivity, MovingGameActivity::class.java)
+                    intent.putExtra("isMultiplayer", true)
+                    intent.putExtra("isHost", isHost)
+                    startActivity(intent)
+                }else if (res == "2") {
+                    val intent = Intent(this@SelectGameActivity, TimingGameActivity::class.java)
                     intent.putExtra("isMultiplayer", true)
                     intent.putExtra("isHost", isHost)
                     startActivity(intent)

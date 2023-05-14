@@ -8,6 +8,7 @@ import com.kjnco.befaster.R
 import com.kjnco.befaster.movingGame.MovingGameActivity
 import com.kjnco.befaster.quiz.QuizMenu
 import com.kjnco.befaster.self_generated_suite.SelfGenerated
+import com.kjnco.befaster.timingGame.TimingGameActivity
 
 /**
  * Class that aims to offer a mode in solo for training
@@ -16,7 +17,7 @@ class TrainingActivity: AppCompatActivity() {
 
     private lateinit var genCultureQuiz: Button
     private lateinit var wordQuiz: Button
-    private lateinit var fillTheRest: Button
+    private lateinit var timingGame: Button
     private lateinit var selfGenerated: Button
     private lateinit var suiteToGenerate: Button
     private lateinit var labyrinth: Button
@@ -63,8 +64,8 @@ class TrainingActivity: AppCompatActivity() {
      * Method to add an event to the fillTheRest button
      */
     private fun fillTheRestButtonEvent() {
-        fillTheRest.setOnClickListener {
-            val intent = Intent(this, QuizMenu::class.java)
+        timingGame.setOnClickListener {
+            val intent = Intent(this, TimingGameActivity::class.java)
             startActivity(intent)
         }
     }
@@ -95,6 +96,7 @@ class TrainingActivity: AppCompatActivity() {
     private fun movingGameButtonEvent() {
         labyrinth.setOnClickListener {
             val intent = Intent(this, MovingGameActivity::class.java)
+            intent.putExtra("isMultiplayer", false)
             startActivity(intent)
         }
     }
@@ -115,7 +117,7 @@ class TrainingActivity: AppCompatActivity() {
     private fun initButtons() {
         genCultureQuiz = findViewById(R.id.gen_culture_quiz)
         wordQuiz = findViewById(R.id.word_quiz)
-        fillTheRest = findViewById(R.id.fill_the_rest)
+        timingGame = findViewById(R.id.fill_the_rest)
         selfGenerated = findViewById(R.id.self_generated)
         suiteToGenerate = findViewById(R.id.suite_to_generate)
         labyrinth = findViewById(R.id.labyrinth)

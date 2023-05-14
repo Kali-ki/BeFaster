@@ -39,11 +39,18 @@ class WifiCommunication private constructor() {
      * @return the message received or null if timeout
      */
     suspend fun waitForMessageSuspend(): String? {
-        return withTimeoutOrNull(5000L){
+        return withTimeoutOrNull(5000){
             withContext(Dispatchers.IO) {
                 semaphore.acquire()
             }
             return@withTimeoutOrNull answers.poll()
+        }
+    }
+
+    suspend fun waitForMessageSuspendWithoutTimeout(): String? {
+        return withContext(Dispatchers.IO) {
+            semaphore.acquire()
+            return@withContext answers.poll()
         }
     }
 

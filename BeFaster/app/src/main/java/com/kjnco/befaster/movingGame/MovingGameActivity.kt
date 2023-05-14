@@ -18,8 +18,14 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlin.system.measureTimeMillis
 
+/**
+ * This activity is a game where the user has to turn his phone in the direction indicated
+ */
 class MovingGameActivity : AppCompatActivity(), SensorEventListener {
 
+    /**
+     * Enum for the rotation direction
+     */
     enum class Rotation {
         Right, Left, Center
     }
@@ -27,6 +33,7 @@ class MovingGameActivity : AppCompatActivity(), SensorEventListener {
     // UI
     private lateinit var goalTextView : TextView
 
+    // Booleans to check if the phone is turned in the right direction
     private var isTurnedLeft : Boolean = false
     private var isTurnedRight : Boolean = false
     private var isNotTurned : Boolean = false
@@ -40,8 +47,10 @@ class MovingGameActivity : AppCompatActivity(), SensorEventListener {
     private var isMultiplayer : Boolean = false
     private var isHost : Boolean = false
 
+    // Sensors
     private lateinit var sensorManager: SensorManager
 
+    // Rotation sensor
     private lateinit var rotation: Sensor
 
     @OptIn(DelicateCoroutinesApi::class)
@@ -55,6 +64,7 @@ class MovingGameActivity : AppCompatActivity(), SensorEventListener {
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         rotation = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
 
+        // Get if the game is multiplayer and if the user is the host
         val bundle : Bundle? = intent.extras
         if(bundle != null){
             isMultiplayer = bundle.getBoolean("isMultiplayer")
@@ -63,24 +73,29 @@ class MovingGameActivity : AppCompatActivity(), SensorEventListener {
             }
         }
 
+        // Init media players with right sound
         mediaPlayerWin = MediaPlayer.create(this, R.raw.victory)
         mediaPlayerLoose = MediaPlayer.create(this, R.raw.defeat)
 
+        // Start the game in a coroutine
         GlobalScope.launch(Dispatchers.IO){
-            var elapsed = measureTimeMillis {
-                for (i in 0..15) {
-                    when ((0..2).random()) {
+            var elapsed = measureTimeMillis { // Measure time to complete the game
+                for (i in 0..15) { // 15 rounds
+                    when ((0..2).random()) { // Random direction
 
+                        // 0 -> Left
                         0 -> {
                             goalTextView.text = Rotation.Left.name
                             while (!isTurnedLeft) {}
                         }
 
+                        // 1 -> Right
                         1 -> {
                             goalTextView.text = Rotation.Right.name
                             while (!isTurnedRight) {}
                         }
 
+                        // 2 -> Center
                         2 -> {
                             goalTextView.text = Rotation.Center.name
                             while (!isNotTurned) {}
@@ -89,9 +104,10 @@ class MovingGameActivity : AppCompatActivity(), SensorEventListener {
                     }
                 }
             }
-            elapsed /= 1000
-            goalTextView.text = "Time = $elapsed seconds"
+            elapsed /= 1000 // Convert to seconds
+            goalTextView.text = "Time = $elapsed seconds" // Display time
 
+            // If the game is multiplayer, send the time to the opponent and wait for his time
             if(isMultiplayer){
                 var hasWon = 0
                 if(isHost){
@@ -119,6 +135,7 @@ class MovingGameActivity : AppCompatActivity(), SensorEventListener {
             // Display result 3 seconds
             Thread.sleep(3000)
 
+            // Finish activity
             finish()
 
         }
