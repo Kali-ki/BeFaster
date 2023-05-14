@@ -18,9 +18,6 @@ class SelectGameActivity : AppCompatActivity() {
     // Is this device the host
     private var isHost : Boolean = false
 
-    // Game chosen by host
-    private var gameChosen : String = ""
-
     // Wifi communication class
     private var wifiCommunication : WifiCommunication = WifiCommunication.getInstance()
 
@@ -30,6 +27,11 @@ class SelectGameActivity : AppCompatActivity() {
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // UI
+        statusTextView = findViewById(R.id.textView_status)
+
+        statusTextView.text = "Choose a game:"
 
         // Get game chosen by host
         val bundle : Bundle? = intent.extras
@@ -45,10 +47,8 @@ class SelectGameActivity : AppCompatActivity() {
 
         // Get game chosen by host
         if(isHost){
+            // Set host layout with buttons for choosing game
             setContentView(R.layout.activity_select_game_host)
-
-            statusTextView = findViewById(R.id.textView_status)
-            statusTextView.text = "Choose a game:"
 
             findViewById<Button>(R.id.buttonGame1).setOnClickListener {
                 wifiCommunication.sendMsg("1")
@@ -78,8 +78,6 @@ class SelectGameActivity : AppCompatActivity() {
 
             statusTextView = findViewById(R.id.textView_status)
             statusTextView.text = "Waiting for host to choose game..."
-
-            findViewById<TextView>(R.id.textView_game_chosen).text = gameChosen
 
             GlobalScope.launch(Dispatchers.Main){
                 val res : String? = wifiCommunication.waitForMessageSuspendWithoutTimeout()

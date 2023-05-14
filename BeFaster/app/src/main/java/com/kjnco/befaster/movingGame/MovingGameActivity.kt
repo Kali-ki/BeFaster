@@ -111,7 +111,7 @@ class MovingGameActivity : AppCompatActivity(), SensorEventListener {
             if(isMultiplayer){
                 var hasWon = 0
                 if(isHost){
-                    val elapsedOpponent = wifiCommunication.waitForMessageSuspend()?.toLong()
+                    val elapsedOpponent = wifiCommunication.waitForMessageSuspendWithoutTimeout()?.toLong()
                     if(elapsedOpponent!! > elapsed){
                         hasWon = 1
                         wifiCommunication.sendMsg("0")

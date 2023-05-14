@@ -19,6 +19,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.system.measureTimeMillis
 
+/**
+ * This activity is a game where the user has to shake his phone just before the timer ends.
+ */
 class TimingGameActivity : AppCompatActivity(), SensorEventListener {
 
     // UI
@@ -152,7 +155,7 @@ class TimingGameActivity : AppCompatActivity(), SensorEventListener {
                     val totalScore = scores[0] + scores[1] + scores[2]
                     var hasWon = 0
                     if(isHost){
-                        val opponentScore = wifiCommunication.waitForMessageSuspend()?.toInt()
+                        val opponentScore = wifiCommunication.waitForMessageSuspendWithoutTimeout()?.toInt()
                         if(totalScore > opponentScore!!){
                             hasWon = 1
                             wifiCommunication.sendMsg("0")
