@@ -93,7 +93,7 @@ class RestitutionActivity: AppCompatActivity(), GestureListener {
         builder.setView(customLayout)
         val imageView = customLayout.findViewById<ImageView>(R.id.alert_dialog_iv)
         mappingGestureToPicture(gestureType, imageView)
-        builder.setTitle(R.string.confirm_drawing)
+        builder.setTitle(R.string.confirm_drawing_fr)
         builder.setMessage(R.string.confirm_drawing_descr_fr)
         builder.setPositiveButton(R.string.yes_fr) { _, _ ->
 
@@ -101,7 +101,7 @@ class RestitutionActivity: AppCompatActivity(), GestureListener {
             // Be careful, the first letter of the string must be uppercase
             gestureDetection.incrementNumberOfArrows()
             val gestureDirection = toTitleCase(gestureType.toString())
-            arrowsRestitution.add(toTitleCase(gestureDirection))
+            arrowsRestitution.add(gestureDirection)
             score++
             scoreDescription.text = "Votre score est de : ${score}"
             imageRestitution.setImageResource(R.drawable.transparent)
