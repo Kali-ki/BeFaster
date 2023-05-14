@@ -39,11 +39,11 @@
     <string name="suite_to_generate_fr">
         Mémorisation à créer
     </string>
-    <string name="labyrinth">
-        Labyrinth
+    <string name="move">
+        Prepare moving!
     </string>
-    <string name="labyrinth_fr">
-        Labyrinthe
+    <string name="move_fr">
+        Préparez-vous à bouger!
     </string>
     <string name="go_back">
         Go back

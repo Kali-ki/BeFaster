@@ -111,14 +111,14 @@
                 android:text="@string/suite_to_generate_fr"/>
 
             <Button
-                android:id="@+id/labyrinth"
+                android:id="@+id/moving_game"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_corners"
                 android:padding="10dp"
                 android:textColor="@color/white"
-                android:text="@string/labyrinth_fr"/>
+                android:text="@string/move_fr"/>
 
         </LinearLayout>
 
