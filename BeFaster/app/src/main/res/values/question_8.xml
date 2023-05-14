@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="question_8">
+        Parmi les animaux suivants, lequel peut retenir sa respiration le plus longtemps ?
+    </string>
+    <string name="answer_8_1">
+        Le dauphin.
+    </string>
+    <string name="answer_8_2">
+        Le paresseux.
+    </string>
+    <string name="answer_8_3">
+        L\'hippopotame.
+    </string>
+</resources>
