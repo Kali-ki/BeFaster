@@ -71,6 +71,12 @@
 
     <string name="question_computation">Le score est en cours de calcul…</string>
 
+    <string name="anagram_rules_1">You will see </string>
+    <string name="anagram_rules_2">list of 3 anagrams</string>
+    <string name="anagram_rules_3">find the odd one out.</string>
+    <string name="anagram_rules_1_fr">Vous verrez </string>
+    <string name="anagram_rules_2_fr">listes de 3 anagrammes</string>
+    <string name="anagram_rules_3_fr">trouvez l\'intrus.</string>
     <string name="self_generated_rules_1_fr">À vous de jouer, restituez la séquence de flèches visionnée.</string>
     <string name="self_generated_rules_2_fr">Reconsituez la séquence dans la partie supérieure de l\'écran.</string>
     <string name="confirm_drawing">Confirm the drawing</string>
