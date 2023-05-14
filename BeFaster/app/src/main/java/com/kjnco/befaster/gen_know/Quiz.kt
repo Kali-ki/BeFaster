@@ -1,4 +1,4 @@
-package com.kjnco.befaster.quiz
+package com.kjnco.befaster.gen_know
 
 import android.content.Intent
 import android.os.Bundle
@@ -20,9 +20,6 @@ class Quiz: AppCompatActivity() {
         var currentQuestionIndex = 0
     }
 
-    // Declare the number of question to iterate on
-    val numberOfQuestions: Int = 6
-
     init {
         // Fill the questionList
         questionList[R.string.question_1] = listOf(R.string.answer_1_1, R.string.answer_1_2, R.string.answer_1_3)
@@ -31,6 +28,10 @@ class Quiz: AppCompatActivity() {
         questionList[R.string.question_4] = listOf(R.string.answer_4_1, R.string.answer_4_2, R.string.answer_4_3)
         questionList[R.string.question_5] = listOf(R.string.answer_5_1, R.string.answer_5_2, R.string.answer_5_3)
         questionList[R.string.question_6] = listOf(R.string.answer_6_1, R.string.answer_6_2, R.string.answer_6_3)
+        questionList[R.string.question_7] = listOf(R.string.answer_7_1, R.string.answer_7_2, R.string.answer_7_3)
+        questionList[R.string.question_8] = listOf(R.string.answer_8_1, R.string.answer_8_2, R.string.answer_8_3)
+        questionList[R.string.question_9] = listOf(R.string.answer_9_1, R.string.answer_9_2, R.string.answer_9_3)
+        questionList[R.string.question_10] = listOf(R.string.answer_10_1, R.string.answer_10_2, R.string.answer_10_3)
 
         // Fill the correctAnswerList
         correctAnswerList[R.string.question_1] = R.string.answer_1_3
@@ -39,6 +40,10 @@ class Quiz: AppCompatActivity() {
         correctAnswerList[R.string.question_4] = R.string.answer_4_3
         correctAnswerList[R.string.question_5] = R.string.answer_5_3
         correctAnswerList[R.string.question_6] = R.string.answer_6_3
+        correctAnswerList[R.string.question_7] = R.string.answer_7_2
+        correctAnswerList[R.string.question_8] = R.string.answer_8_2
+        correctAnswerList[R.string.question_9] = R.string.answer_9_2
+        correctAnswerList[R.string.question_10] = R.string.answer_10_2
     }
 
     init {
@@ -75,7 +80,7 @@ class Quiz: AppCompatActivity() {
      */
     fun setTheNextQuestion() {
         currentQuestionIndex ++
-        if (currentQuestionIndex < questionList.size - 1) {
+        if (currentQuestionIndex < QuizMenu.numberOfQuestions) {
                 val question: Int = questionList.keys.elementAt(currentQuestionIndex)
                 val answers: List<Int> = questionList.values.elementAt(currentQuestionIndex)
                 val questionFragment = QuestionFragment.newInstance(question, answers[0], answers[1], answers[2], correctAnswerList[question]!!)

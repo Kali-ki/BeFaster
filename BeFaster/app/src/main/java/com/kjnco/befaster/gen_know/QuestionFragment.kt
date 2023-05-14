@@ -1,4 +1,4 @@
-package com.kjnco.befaster.quiz
+package com.kjnco.befaster.gen_know
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,6 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.kjnco.befaster.R
-import java.util.Date
 
 /**
  * A question fragment corresponding to one question

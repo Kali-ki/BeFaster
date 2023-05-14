@@ -1,4 +1,4 @@
-package com.kjnco.befaster.quiz
+package com.kjnco.befaster.gen_know
 
 import android.content.Intent
 import android.widget.Button
@@ -11,16 +11,28 @@ import com.kjnco.befaster.R
  */
 
 class QuizMenu: AppCompatActivity() {
+
+    companion object {
+        // Declare the number of question to iterate on
+        val numberOfQuestions: Int = 5
+    }
+
+    private lateinit var greetings: TextView
+    private lateinit var rules: TextView
+    private lateinit var description: TextView
+    private lateinit var start: Button
+
     override fun onCreate(savedInstanceState: android.os.Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fast_quiz_intro)
 
         // Text of the quiz menu
-        val greetings: TextView by lazy { findViewById(R.id.greetings) }
-        val rules: TextView by lazy { findViewById(R.id.rules) }
-        val description: TextView by lazy { findViewById(R.id.description) }
+        greetings = findViewById(R.id.greetings)
+        rules = findViewById(R.id.rules)
+        description = findViewById(R.id.description)
+
         // Button to start the quiz
-        val start: Button by lazy {findViewById(R.id.starting)}
+        start = findViewById(R.id.starting)
 
         // Set the text of the quiz menu
         greetings.setText(R.string.quiz_greetings)

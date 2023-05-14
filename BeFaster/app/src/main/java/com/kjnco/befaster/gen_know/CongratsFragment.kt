@@ -1,4 +1,4 @@
-package com.kjnco.befaster.quiz
+package com.kjnco.befaster.gen_know
 
 import android.os.Bundle
 import android.os.Handler
