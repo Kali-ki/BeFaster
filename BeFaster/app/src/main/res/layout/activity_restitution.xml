@@ -9,15 +9,26 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center_horizontal"
-        android:text="@string/consignes_self_generated_fr"
+        android:text="@string/self_generated_rules_1_fr"
         android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/instruction_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/instruction"
+        android:gravity="center_horizontal"
+        android:text="@string/self_generated_rules_2_fr"
+        android:textColor="@color/primary_2"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/instruction"
+        android:layout_below="@+id/instruction_2"
         android:orientation="vertical">
 
         <LinearLayout
@@ -30,7 +41,6 @@
                 android:id="@+id/score_descr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/score_fr"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />

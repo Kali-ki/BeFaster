@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_centerHorizontal="true">
+
+    <LinearLayout
+        android:id="@+id/rules"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/rules_1"
+            style="@style/RegularBig"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/rules_2"
+            style="@style/RegularBig"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/rules_3"
+            style="@style/EM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" />
+
+       <Button
+           android:id="@+id/begin"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="100dp"
+           android:padding="10dp"
+           android:background="@drawable/rounded_corners"
+           android:gravity="center"
+           android:textColor="@color/white"
+           android:text="@string/quiz_start"/>
+
+       <Button
+           android:id="@+id/cancel"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="10dp"
+           android:padding="10dp"
+           android:background="@drawable/rounded_corners"
+           android:gravity="center"
+           android:textColor="@color/anagolous_2"
+           android:text="@string/cancel"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

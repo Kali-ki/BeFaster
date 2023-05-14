@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="question_10">
+        La langue de la baleine bleue, peut peser :
+    </string>
+    <string name="answer_10_1">
+        Autant qu\'un semi-remorque.
+    </string>
+    <string name="answer_10_2">
+        Autant qu\'un éléphant.
+    </string>
+    <string name="answer_10_3">
+        Autant qu\'un sous-marin.
+    </string>
+</resources>

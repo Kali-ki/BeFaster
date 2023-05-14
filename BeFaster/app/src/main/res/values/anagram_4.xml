@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="anagram_4">
+        Parmi les anagrammes suivants, lequel est l\'intrus ?
+    </string>
+    <string name="anagram4_1">
+        PLIETU
+    </string>
+    <string name="anagram4_2">
+        PANPE
+    </string>
+    <string name="anagram4_3">
+        OILETVTE
+    </string>
+</resources>

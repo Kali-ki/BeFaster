@@ -1,10 +1,10 @@
 package com.kjnco.befaster.suite_to_generate
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
 import com.kjnco.befaster.R
 import com.kjnco.befaster.main_menu.TrainingActivity
 
@@ -12,19 +12,21 @@ import com.kjnco.befaster.main_menu.TrainingActivity
 class SuiteToGenerate : AppCompatActivity() {
 
     companion object {
+        val arrow_pictures = ArrayList<Int>()
         const val DURATION = 3000L
         const val DELAY = 1000L
-        const val NUMBER_OF_ELEMENT = 3
-        var currentIteration = 0
-        const val NUMBER_OF_SEQUENCE = 3
-        var currentSequence = 0
+    }
+
+    init {
+        arrow_pictures.add(R.drawable.blue_arrow_up)
+        arrow_pictures.add(R.drawable.blue_arrow_down)
+        arrow_pictures.add(R.drawable.blue_arrow_left)
+        arrow_pictures.add(R.drawable.blue_arrow_right)
     }
 
     private lateinit var rules: LinearLayout
-    private lateinit var beginButton : Button
+    private lateinit var beginButton: Button
     private lateinit var cancelButton: Button
-    private val arrows = listOf(R.drawable.arrow_up, R.drawable.arrow_right, R.drawable.arrow_down, R.drawable.arrow_left)
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +39,10 @@ class SuiteToGenerate : AppCompatActivity() {
         beginButton = findViewById(R.id.begin)
         cancelButton = findViewById(R.id.cancel)
 
+        // Buttons action
+        cancelButtonEvent()
+        beginButtonEvent()
+
     }
 
     /**
@@ -45,6 +51,20 @@ class SuiteToGenerate : AppCompatActivity() {
     private fun cancelButtonEvent() {
         cancelButton.setOnClickListener {
             val intent = Intent(this, TrainingActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    /**
+     * Method to begin the game with one arrow to draw
+     *     it will display a blank screen to draw
+     */
+    private fun beginButtonEvent() {
+        beginButton.setOnClickListener {
+            rules.visibility = LinearLayout.INVISIBLE
+            val intent = Intent(this, ExtraArrowActivity::class.java)
+            intent.putStringArrayListExtra("listOfArrows", ArrayList<String>())
+            intent.putExtra("answerTime", 0.0)
             startActivity(intent)
         }
     }

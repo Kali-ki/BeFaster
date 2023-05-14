@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="anagram_2">
+        Parmi les anagrammes suivants, lequel est l\'intrus ?
+    </string>
+    <string name="anagram2_1">
+        OLEV
+    </string>
+    <string name="anagram2_2">
+        LRARAPSO
+    </string>
+    <string name="anagram2_3">
+        RETUVIO
+    </string>
+</resources>

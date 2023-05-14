@@ -1,4 +1,4 @@
-package com.kjnco.befaster.quiz
+package com.kjnco.befaster.anagram
 
 import android.os.Bundle
 import android.os.Handler
@@ -11,17 +11,17 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.kjnco.befaster.R
 
-class CongratsFragment: Fragment() {
 
+class AnswerFragment : Fragment() {
     companion object{
         private const val ARG_IS_CORRECT = "isAnswerCorrect"
         private const val ARG_ANSWER_TIME = "answerTime"
 
-        fun newInstance(isAnswerCorrect: Boolean, answerTime: Long): CongratsFragment {
-            val fragment = CongratsFragment()
+        fun newInstance(isAnswerCorrect: Boolean, answerTime: Double): AnswerFragment {
+            val fragment = AnswerFragment()
             val args = Bundle()
             args.putBoolean(ARG_IS_CORRECT, isAnswerCorrect)
-            args.putLong(ARG_ANSWER_TIME, answerTime)
+            args.putDouble(ARG_ANSWER_TIME, answerTime)
             fragment.arguments = args
             return fragment
         }
@@ -35,7 +35,7 @@ class CongratsFragment: Fragment() {
 
         // Arguments
         val isCorrect = arguments?.getBoolean("isAnswerCorrect")!!
-        val answerTime = arguments?.getLong("answerTime")!!
+        val answerTime = arguments?.getDouble("answerTime")!!
 
         // View
         val view: View = inflater.inflate(R.layout.activity_congrats, container, false)
@@ -52,11 +52,10 @@ class CongratsFragment: Fragment() {
             Toast.makeText(context, "Mauvaise réponse, tu as répondu en $answerTime s.", Toast.LENGTH_SHORT).show()
         }
 
-       Handler(Looper.getMainLooper()).postDelayed({
-            (activity as? Quiz)?.setTheNextQuestion()
+        Handler(Looper.getMainLooper()).postDelayed({
+            (activity as? QuizActivity)?.setTheNextQuestion()
         }, 3000)
 
         return view
     }
-
 }

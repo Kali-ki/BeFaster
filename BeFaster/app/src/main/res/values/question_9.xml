@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="question_9">
+        La guerre la plus courte de l\'histoire, a duré :
+    </string>
+    <string name="answer_9_1">
+        2 jours.
+    </string>
+    <string name="answer_9_2">
+       38 minutes.
+    </string>
+    <string name="answer_9_3">
+        2 semaines.
+    </string>
+</resources>

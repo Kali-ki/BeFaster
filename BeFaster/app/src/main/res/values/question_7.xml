@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="question_7">
+        Dans quel pays est le volcan le plus actif au monde ?
+    </string>
+    <string name="answer_7_1">
+        L\'Islande.
+    </string>
+    <string name="answer_7_2">
+        La Russie.
+    </string>
+    <string name="answer_7_3">
+        La France.
+    </string>
+</resources>

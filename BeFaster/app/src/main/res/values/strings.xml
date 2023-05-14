@@ -71,7 +71,14 @@
 
     <string name="question_computation">Le score est en cours de calcul…</string>
 
-    <string name="consignes_self_generated_fr">À vous de jouer, restituez la séquence de flèches visionnée.</string>
+    <string name="anagram_rules_1">You will see </string>
+    <string name="anagram_rules_2">list of 3 anagrams</string>
+    <string name="anagram_rules_3">find the odd one out.</string>
+    <string name="anagram_rules_1_fr">Vous verrez </string>
+    <string name="anagram_rules_2_fr">listes de 3 anagrammes</string>
+    <string name="anagram_rules_3_fr">trouvez l\'intrus.</string>
+    <string name="self_generated_rules_1_fr">À vous de jouer, restituez la séquence de flèches visionnée.</string>
+    <string name="self_generated_rules_2_fr">Reconsituez la séquence dans la partie supérieure de l\'écran.</string>
     <string name="confirm_drawing">Confirm the drawing</string>
     <string name="confirm_drawing_fr">Confirmer le dessin</string>
     <string name="confirm_drawing_descr">Is the drawing what you expeceted?</string>
@@ -92,9 +99,19 @@
     <string name="self_gen_rule_1_3_fr">flèches,</string>
     <string name="self_gen_rule_2_fr">Vous devrez les reconstituer.</string>
     <string name="suite_to_generate_rule_1">Firstly, you will see a suite of arrows,</string>
-    <string name="suite_to_generate_rule_2">Secondly you have to reconstitute it,</string>
+    <string name="suite_to_generate_rule_2">Secondly you have to reconstitute it the fast as you can,</string>
     <string name="suite_to_generate_rule_3">Finally, if you succeed, you can add an extra arrow in one of the four direction.</string>
     <string name="suite_to_generate_rule_1_fr">Premièrement, vous verrez une suite de flèches,</string>
-    <string name="suite_to_generate_rule_2_fr">Deuxièmement, vous devrez la reconstituer,</string>
+    <string name="suite_to_generate_rule_2_fr">Deuxièmement, vous devrez la reconstituer le plus rapidement possible,</string>
     <string name="suite_to_generate_rule_3_fr">Enfin, si vous réussissez, vous pourrez ajouter une flèche supplémentaire dans l\'une des quatre directions.</string>
+    <string name="suite_to_generate_rule_4">You succeed to restitue all the arrows shown in,</string>
+    <string name="suite_to_generate_rule_5">Now, you can add an extra arrow.</string>
+    <string name="suite_to_generate_rule_4_fr">Vous avez réussi à reconstituer toutes les flèches montrées en</string>
+    <string name="suite_to_generate_rule_5_fr">Maintenant, vous pouvez ajouter une flèche supplémentaire.</string>
+    <string name="suite_to_generate_rule_6">You are the one who begins, please draw one arrow in one of the four directions.</string>
+    <string name="suite_to_generate_rule_6_fr">Vous êtes le premier, veuillez dessiner une flèche dans l\'une des quatre directions.</string>
+    <string name="suite_to_generate_rule_7">It is your turn now. Please reconstitute the suite.</string>
+    <string name="suite_to_generate_rule_7_fr">C\'est à vous. Veuillez reconstituer la suite.</string>
+    <string name="suite_to_generate_rule_8">And add an extra arrow at the end.</string>
+    <string name="suite_to_generate_rule_8_fr">Et ajouter une flèche supplémentaire à la fin.</string>
 </resources>

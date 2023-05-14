@@ -54,6 +54,7 @@
                 android:id="@+id/gen_culture_quiz"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_corners"
                 android:textColor="@color/white"
@@ -63,6 +64,7 @@
                 android:id="@+id/word_quiz"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_corners"
                 android:textColor="@color/white"
@@ -72,6 +74,7 @@
                 android:id="@+id/fill_the_rest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_corners"
                 android:textColor="@color/white"
@@ -108,14 +111,14 @@
                 android:text="@string/suite_to_generate_fr"/>
 
             <Button
-                android:id="@+id/labyrinth"
+                android:id="@+id/moving_game"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_corners"
                 android:padding="10dp"
                 android:textColor="@color/white"
-                android:text="@string/labyrinth_fr"/>
+                android:text="@string/move_fr"/>
 
         </LinearLayout>
 

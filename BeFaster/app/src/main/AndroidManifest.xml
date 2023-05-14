@@ -32,6 +32,21 @@
             android:name=".timingGame.TimingGameActivity"
             android:exported="false" />
         <activity
+            android:name=".anagram.QuizActivity"
+            android:exported="false" />
+        <activity
+            android:name=".anagram.AnagramActivity"
+            android:exported="false" />
+        <activity
+            android:name=".suite_to_generate.CongratsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".suite_to_generate.RestitutionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".suite_to_generate.ExtraArrowActivity"
+            android:exported="false" />
+        <activity
             android:name=".movingGame.MovingGameActivity"
             android:exported="false" />
         <activity
@@ -60,8 +75,8 @@
         <activity android:name=".main_menu.MultiplayerActivity" />
         <activity android:name=".main_menu.SettingsActivity" />
         <activity android:name=".SelectGameActivity" />
-        <activity android:name=".quiz.QuizMenu" />
-        <activity android:name=".quiz.Quiz" />
+        <activity android:name=".gen_know.QuizMenu" />
+        <activity android:name=".gen_know.Quiz" />
 
         <meta-data
             android:name="preloaded_fonts"

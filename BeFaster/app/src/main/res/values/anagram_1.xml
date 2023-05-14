@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="anagram_1">
+        Parmi les anagrammes suivants, lequel est l\'intrus ?
+    </string>
+    <string name="anagram1_1">
+        AEU
+    </string>
+    <string name="anagram1_2">
+        OTOM
+    </string>
+    <string name="anagram1_3">
+        RAI
+    </string>
+</resources>

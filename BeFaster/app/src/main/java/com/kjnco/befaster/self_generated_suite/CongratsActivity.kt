@@ -18,7 +18,7 @@ class CongratsActivity : AppCompatActivity() {
         // Getting the data passed by the previous activity
         val isAnswerCorrect = intent.getBooleanExtra("isAnswerCorrect", false)
         val time = intent.getLongExtra("answerTime", 0L)
-        val answerTime: Double = time.toDouble() / 1000.0
+        val answerTime: Double = time.toDouble() / 1000
 
         // Getting the layout elements
         val answerImage = findViewById<ImageView>(R.id.answer_image)

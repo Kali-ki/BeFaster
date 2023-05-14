@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="anagram_3">
+        Parmi les anagrammes suivants, lequel est l\'intrus ?
+    </string>
+    <string name="anagram3_1">
+        IOTUDIA
+    </string>
+    <string name="anagram3_2">
+        SIONAM
+    </string>
+    <string name="anagram3_3">
+        TRAODO
+    </string>
+</resources>

@@ -5,10 +5,12 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.kjnco.befaster.MainActivity
 import com.kjnco.befaster.R
+import com.kjnco.befaster.anagram.AnagramActivity
+import com.kjnco.befaster.gen_know.QuizMenu
 import com.kjnco.befaster.movingGame.MovingGameActivity
-import com.kjnco.befaster.quiz.QuizMenu
 import com.kjnco.befaster.self_generated_suite.SelfGenerated
 import com.kjnco.befaster.timingGame.TimingGameActivity
+import com.kjnco.befaster.suite_to_generate.SuiteToGenerate
 
 /**
  * Class that aims to offer a mode in solo for training
@@ -55,7 +57,7 @@ class TrainingActivity: AppCompatActivity() {
      */
     private fun wordQuizButtonEvent() {
         wordQuiz.setOnClickListener {
-            val intent = Intent(this, QuizMenu::class.java)
+            val intent = Intent(this, AnagramActivity::class.java)
             startActivity(intent)
         }
     }
@@ -85,7 +87,7 @@ class TrainingActivity: AppCompatActivity() {
      */
     private fun suiteToGenerateButtonEvent() {
         suiteToGenerate.setOnClickListener {
-            val intent = Intent(this, QuizMenu::class.java)
+            val intent = Intent(this, SuiteToGenerate::class.java)
             startActivity(intent)
         }
     }
@@ -120,7 +122,7 @@ class TrainingActivity: AppCompatActivity() {
         timingGame = findViewById(R.id.fill_the_rest)
         selfGenerated = findViewById(R.id.self_generated)
         suiteToGenerate = findViewById(R.id.suite_to_generate)
-        labyrinth = findViewById(R.id.labyrinth)
+        labyrinth = findViewById(R.id.moving_game)
         cancelButton = findViewById(R.id.cancel)
     }
 }
