@@ -86,7 +86,7 @@ class QuestionFragment : Fragment(){
         answer3RB.text = getString(answer3)
 
         // Time
-        val startTime = Date().time
+        val startTime = System.currentTimeMillis()
 
         // Add event to the button
         submitButton.setOnClickListener {
@@ -94,8 +94,8 @@ class QuestionFragment : Fragment(){
             val selectedAnswer = radioGroup.checkedRadioButtonId
 
             // Time
-            val endTime = Date().time
-            val answerTime = (endTime - startTime)/1000
+            val endTime = System.currentTimeMillis()
+            val answerTime = (endTime - startTime).toDouble()/1000
 
             val isAnswerCorrect: Boolean = checkTheAnswer(selectedAnswer)
 
