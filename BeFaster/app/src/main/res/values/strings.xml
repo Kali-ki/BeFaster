@@ -114,4 +114,21 @@
     <string name="suite_to_generate_rule_7_fr">C\'est à vous. Veuillez reconstituer la suite.</string>
     <string name="suite_to_generate_rule_8">And add an extra arrow at the end.</string>
     <string name="suite_to_generate_rule_8_fr">Et ajouter une flèche supplémentaire à la fin.</string>
+
+    <string name="win">You won !</string>
+    <string name="loose">You loose !</string>
+
+    <!-- GAME SHAKE -->
+    <string name="scores">Your scores are \n 1st : %1$s \n2nd : %2$s \n3rd : %3$s</string>
+    <string name="shake_instruction">Shake when the timer is at 0 !</string>
+    <string name="game_shake_right_name">Shake Right</string>
+
+    <!-- MOVING GAME -->
+    <string name="game_moving_right_name">Préparez-vous à bouger</string>
+    <string name="moving_game_time">Time = %1$s seconds</string>
+
+    <!-- GAME SELECT -->
+    <string name="game_select_title">Select a game</string>
+    <string name="game_select_wait">Waiting for host to choose game…</string>
+
 </resources>

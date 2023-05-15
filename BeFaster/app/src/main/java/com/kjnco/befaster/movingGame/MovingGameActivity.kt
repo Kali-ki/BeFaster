@@ -105,7 +105,7 @@ class MovingGameActivity : AppCompatActivity(), SensorEventListener {
                 }
             }
             elapsed /= 1000 // Convert to seconds
-            goalTextView.text = "Time = $elapsed seconds" // Display time
+            goalTextView.text = getString(R.string.moving_game_time, elapsed.toString())
 
             // If the game is multiplayer, send the time to the opponent and wait for his time
             if(isMultiplayer){
@@ -124,10 +124,10 @@ class MovingGameActivity : AppCompatActivity(), SensorEventListener {
                     hasWon = result!!.toInt()
                 }
                 if(hasWon == 1){
-                    goalTextView.text = "You win"
+                    goalTextView.text = getString(R.string.win)
                     mediaPlayerWin.start()
                 }else{
-                    goalTextView.text = "You loose"
+                    goalTextView.text = getString(R.string.loose)
                     mediaPlayerLoose.start()
                 }
             }

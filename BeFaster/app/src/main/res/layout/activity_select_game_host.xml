@@ -9,24 +9,40 @@
     <TextView
         android:id="@+id/textView_status"
         android:layout_width="match_parent"
+        android:textSize="32sp"
+        android:textAlignment="center"
         android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/buttonGame1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="1" />
+        android:text="@string/game_moving_right_name" />
 
     <Button
         android:id="@+id/buttonGame2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="2" />
+        android:text="@string/game_shake_right_name" />
 
     <Button
         android:id="@+id/buttonGame3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="3" />
+        android:text="Not Yet Implemented" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="32sp"
+        android:textAlignment="center"
+        android:text="Random Mode" />
+
+    <Button
+        android:id="@+id/random_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Random" />
 
 </LinearLayout>

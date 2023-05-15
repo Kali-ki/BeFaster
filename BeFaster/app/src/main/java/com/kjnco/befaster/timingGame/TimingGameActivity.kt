@@ -140,15 +140,11 @@ class TimingGameActivity : AppCompatActivity(), SensorEventListener {
                     }
                     isRunning = false
                     asFinished = false
-                    Thread.sleep(1000)
+                    Thread.sleep(2000)
                 }
             }
 
-            // Display scores on the screen
-            stepTextView.text = "Your scores are : \n" +
-                    "1st : ${scores[0]} ms\n" +
-                    "2nd : ${scores[1]} ms\n" +
-                    "3rd : ${scores[2]} ms\n"
+            stepTextView.text = getString(R.string.scores, scores[0].toString(), scores[1].toString(), scores[2].toString())
 
             withContext(Dispatchers.IO){
                 if(isMultiplayer){
@@ -170,14 +166,14 @@ class TimingGameActivity : AppCompatActivity(), SensorEventListener {
                     withContext(Dispatchers.Main){
                         if(hasWon == 1){
                             mediaPlayerWin.start()
-                            stepTextView.text = "You won !"
+                            stepTextView.text = getString(R.string.win)
                         }else{
                             mediaPlayerLoose.start()
-                            stepTextView.text = "You loose !"
+                            stepTextView.text = getString(R.string.loose)
                         }
                     }
                 }
-                Thread.sleep(3000)
+                Thread.sleep(5000)
                 finish()
             }
 
@@ -208,7 +204,7 @@ class TimingGameActivity : AppCompatActivity(), SensorEventListener {
             val delta: Float = currentAcceleration - lastAcceleration
             acceleration = acceleration * 0.9f + delta
 
-            if (acceleration > 12) {
+            if (acceleration > 15) {
                 if(isRunning){
 
                     when(actualTimer){
@@ -231,6 +227,8 @@ class TimingGameActivity : AppCompatActivity(), SensorEventListener {
             override fun onTick(millisUntilFinished: Long) {
                 if(millisUntilFinished > totalTime-3000){
                     stepTextView.text = (millisUntilFinished / 1000).toString()
+                }else{
+                    stepTextView.text = getString(R.string.shake_instruction)
                 }
             }
             override fun onFinish() {
