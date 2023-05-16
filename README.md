@@ -1,2 +1,3 @@
 # BeFaster
-Mobile game
+
+An Android game application with a P2P multiplayer mode
